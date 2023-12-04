@@ -20,12 +20,12 @@ public class BookController {
 
     @GetMapping
     public List<BookDto> getAll() {
-        return bookService.findAll();
+        return bookService.getAll();
     }
 
     @GetMapping("/{id}")
     public BookDto getBookById(@PathVariable Long id) {
-        return bookService.findById(id);
+        return bookService.getById(id);
     }
 
     @PostMapping

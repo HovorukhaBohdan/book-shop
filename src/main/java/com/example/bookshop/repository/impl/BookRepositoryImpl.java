@@ -44,7 +44,7 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public List<Book> findAll() {
+    public List<Book> getAll() {
         try (Session session = sessionFactory.openSession()) {
             Query<Book> booksFromDb = session.createQuery("FROM Book b", Book.class);
             return booksFromDb.getResultList();
@@ -54,7 +54,7 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public Optional<Book> findById(Long id) {
+    public Optional<Book> getById(Long id) {
         try (Session session = sessionFactory.openSession()) {
             return Optional.ofNullable(session.get(Book.class, id));
         } catch (Exception e) {
