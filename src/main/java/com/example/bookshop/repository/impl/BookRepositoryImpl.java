@@ -5,7 +5,6 @@ import com.example.bookshop.model.Book;
 import com.example.bookshop.repository.BookRepository;
 import java.util.List;
 import java.util.Optional;
-
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class BookRepositoryImpl implements BookRepository {
     private final SessionFactory sessionFactory;
-
 
     @Override
     public Book save(Book book) {
