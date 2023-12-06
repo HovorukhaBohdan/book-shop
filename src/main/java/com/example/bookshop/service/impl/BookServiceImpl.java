@@ -7,8 +7,11 @@ import com.example.bookshop.exception.EntityNotFoundException;
 import com.example.bookshop.mapper.BookMapper;
 import com.example.bookshop.model.Book;
 import com.example.bookshop.repository.BookRepository;
+import com.example.bookshop.repository.SpecificationBuilder;
 import com.example.bookshop.service.BookService;
 import java.util.List;
+import java.util.Map;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
+    private final SpecificationBuilder<Book> bookSpecificationBuilder;
     private final BookMapper bookMapper;
 
     @Override
@@ -52,5 +56,10 @@ public class BookServiceImpl implements BookService {
     @Override
     public void deleteById(Long id) {
         bookRepository.deleteById(id);
+    }
+
+    @Override
+    public List<BookDto> searchBooks(Map<String, String[]> params) {
+        return null;
     }
 }

@@ -1,8 +1,9 @@
 package com.example.bookshop.repository;
 
-import com.example.bookshop.dto.BookSearchParametersDto;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.Map;
+
 public interface SpecificationBuilder<T> {
-    Specification<T> build(BookSearchParametersDto searchParameters);
+    Specification<T> build(Map<String, String[]> searchParameters);
 }
