@@ -11,7 +11,6 @@ import com.example.bookshop.repository.SpecificationBuilder;
 import com.example.bookshop.service.BookService;
 import java.util.List;
 import java.util.Map;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;

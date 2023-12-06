@@ -4,8 +4,8 @@ import com.example.bookshop.exception.SpecificationException;
 import com.example.bookshop.model.Book;
 import com.example.bookshop.repository.SpecificationProvider;
 import com.example.bookshop.repository.SpecificationProviderManager;
-import lombok.RequiredArgsConstructor;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor

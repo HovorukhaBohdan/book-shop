@@ -5,6 +5,7 @@ import com.example.bookshop.dto.CreateBookRequestDto;
 import com.example.bookshop.dto.UpdateBookRequestDto;
 import com.example.bookshop.service.BookService;
 import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -48,5 +49,10 @@ public class BookController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         bookService.deleteById(id);
+    }
+
+    @GetMapping("/search")
+    public List<BookDto> searchBooks(Map<String, String[]> params) {
+        return bookService.searchBooks(params);
     }
 }
