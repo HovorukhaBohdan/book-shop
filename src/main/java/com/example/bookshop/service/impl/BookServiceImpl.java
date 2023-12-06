@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -60,6 +61,9 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<BookDto> searchBooks(Map<String, String[]> params) {
-        return null;
+        Specification<Book> specification = bookSpecificationBuilder.build(params);
+        return bookRepository.findAll(specification).stream()
+                .map(bookMapper::toBookDto)
+                .toList();
     }
 }
