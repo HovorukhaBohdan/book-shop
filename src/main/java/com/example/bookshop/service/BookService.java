@@ -5,7 +5,6 @@ import com.example.bookshop.dto.BookSearchParametersDto;
 import com.example.bookshop.dto.CreateBookRequestDto;
 import com.example.bookshop.dto.UpdateBookRequestDto;
 import java.util.List;
-import java.util.Map;
 
 public interface BookService {
     BookDto save(CreateBookRequestDto bookRequestDto);

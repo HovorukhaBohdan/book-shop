@@ -4,7 +4,6 @@ import com.example.bookshop.dto.BookSearchParametersDto;
 import com.example.bookshop.model.Book;
 import com.example.bookshop.repository.SpecificationBuilder;
 import com.example.bookshop.repository.SpecificationProviderManager;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
