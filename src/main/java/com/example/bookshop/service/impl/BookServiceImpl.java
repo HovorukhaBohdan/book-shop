@@ -11,6 +11,7 @@ import com.example.bookshop.service.BookService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -39,6 +40,7 @@ public class BookServiceImpl implements BookService {
         return bookMapper.toBookDto(book);
     }
 
+    @Transactional
     @Override
     public BookDto updateById(Long id, UpdateBookRequestDto bookRequestDto) {
         bookRepository.findById(id).orElseThrow(
