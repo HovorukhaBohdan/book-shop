@@ -1,11 +1,5 @@
 package com.example.bookshop.dto;
 
-import java.math.BigDecimal;
-import lombok.Data;
+public record BookSearchParametersDto(String[] title, String[] author, String[] isbn) {
 
-@Data
-public class BookSearchParametersDto {
-    private String[] title;
-    private String[] author;
-    private String[] isbn;
 }
