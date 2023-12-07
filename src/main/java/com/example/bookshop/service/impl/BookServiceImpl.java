@@ -1,6 +1,7 @@
 package com.example.bookshop.service.impl;
 
 import com.example.bookshop.dto.BookDto;
+import com.example.bookshop.dto.BookSearchParametersDto;
 import com.example.bookshop.dto.CreateBookRequestDto;
 import com.example.bookshop.dto.UpdateBookRequestDto;
 import com.example.bookshop.exception.EntityNotFoundException;
@@ -61,8 +62,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDto> searchBooks(Map<String, String> params) {
-        Specification<Book> specification = bookSpecificationBuilder.build(params);
+    public List<BookDto> searchBooks(BookSearchParametersDto searchParameters) {
+        Specification<Book> specification = bookSpecificationBuilder.build(searchParameters);
         return bookRepository.findAll(specification).stream()
                 .map(bookMapper::toBookDto)
                 .toList();

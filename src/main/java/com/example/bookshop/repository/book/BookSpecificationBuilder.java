@@ -1,5 +1,6 @@
 package com.example.bookshop.repository.book;
 
+import com.example.bookshop.dto.BookSearchParametersDto;
 import com.example.bookshop.model.Book;
 import com.example.bookshop.repository.SpecificationBuilder;
 import com.example.bookshop.repository.SpecificationProviderManager;
@@ -14,7 +15,7 @@ public class BookSpecificationBuilder implements SpecificationBuilder<Book> {
     private final SpecificationProviderManager<Book> specificationProviderManager;
 
     @Override
-    public Specification<Book> build(Map<String, String> searchParameters) {
+    public Specification<Book> build(BookSearchParametersDto searchParameters) {
         Specification<Book> specification = Specification.where(null);
 
         for (Map.Entry<String, String> entry : searchParameters.entrySet()) {
