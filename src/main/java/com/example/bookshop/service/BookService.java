@@ -17,5 +17,5 @@ public interface BookService {
 
     void deleteById(Long id);
 
-    List<BookDto> searchBooks(Map<String, String[]> params);
+    List<BookDto> searchBooks(Map<String, String> params);
 }
