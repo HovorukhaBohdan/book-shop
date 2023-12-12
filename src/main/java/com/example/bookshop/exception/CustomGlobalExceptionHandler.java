@@ -18,8 +18,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler {
-    private static final HttpStatusCode STATUS_CODE = HttpStatus.BAD_REQUEST;
-
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,
@@ -29,7 +27,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     ) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
-        body.put("status", STATUS_CODE);
+        body.put("status", HttpStatus.BAD_REQUEST);
 
         List<String> errors = ex.getBindingResult().getAllErrors().stream()
                 .map(this::getErrorMessage)
@@ -44,10 +42,10 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     protected ResponseEntity<Object> handleCustomException(Exception exception) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
-        body.put("status", STATUS_CODE);
+        body.put("status", HttpStatus.BAD_REQUEST);
         body.put("errors", exception.getMessage());
 
-        return new ResponseEntity<>(body, STATUS_CODE);
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
 
     private String getErrorMessage(ObjectError error) {
