@@ -6,7 +6,6 @@ import com.example.bookshop.dto.CreateBookRequestDto;
 import com.example.bookshop.dto.UpdateBookRequestDto;
 import com.example.bookshop.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -51,7 +50,8 @@ public class BookController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Update a book by id",
-            description = "Update a book by specified id, if the book doesn't exist, it will save it")
+            description = "Update a book by specified id,"
+                    + " if the book doesn't exist, it will save it")
     public BookDto updateBookById(@PathVariable Long id,
                                   @RequestBody @Valid UpdateBookRequestDto bookRequestDto) {
         return bookService.updateById(id, bookRequestDto);
