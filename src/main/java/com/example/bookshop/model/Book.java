@@ -6,9 +6,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import lombok.Data;
+import lombok.NonNull;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -21,19 +21,19 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull
+    @NonNull
     private String title;
-    @NotNull
+    @NonNull
     private String author;
-    @NotNull
+    @NonNull
     @Column(unique = true)
     private String isbn;
-    @NotNull
+    @NonNull
     private BigDecimal price;
     private String description;
     @Column(name = "cover_image")
     private String coverImage;
-    @NotNull
+    @NonNull
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
 
