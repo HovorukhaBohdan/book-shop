@@ -17,24 +17,24 @@ public class BookSpecificationBuilder implements SpecificationBuilder<Book> {
     public Specification<Book> build(BookSearchParametersDto searchParameters) {
         Specification<Book> specification = Specification.where(null);
 
-        if (searchParameters.getTitle() != null && searchParameters.getTitle().length > 0) {
+        if (searchParameters.title() != null && searchParameters.title().length > 0) {
             specification = specification.and(specificationProviderManager
                     .getSpecificationProvider("title")
-                    .getSpecification(searchParameters.getTitle())
+                    .getSpecification(searchParameters.title())
             );
         }
 
-        if (searchParameters.getAuthor() != null && searchParameters.getAuthor().length > 0) {
+        if (searchParameters.author() != null && searchParameters.author().length > 0) {
             specification = specification.and(specificationProviderManager
                     .getSpecificationProvider("author")
-                    .getSpecification(searchParameters.getAuthor())
+                    .getSpecification(searchParameters.author())
             );
         }
 
-        if (searchParameters.getIsbn() != null && searchParameters.getIsbn().length > 0) {
+        if (searchParameters.isbn() != null && searchParameters.isbn().length > 0) {
             specification = specification.and(specificationProviderManager
                     .getSpecificationProvider("isbn")
-                    .getSpecification(searchParameters.getIsbn())
+                    .getSpecification(searchParameters.isbn())
             );
         }
 
