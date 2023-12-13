@@ -53,7 +53,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
             String field = ((FieldError) error).getField();
             String message = error.getDefaultMessage();
 
-            return String.format("%s %s", field, message);
+            return String.format("Field %s: %s", field, message);
         }
 
         return error.getDefaultMessage();
