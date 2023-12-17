@@ -8,7 +8,7 @@ import com.example.bookshop.exception.EntityNotFoundException;
 import com.example.bookshop.mapper.BookMapper;
 import com.example.bookshop.model.Book;
 import com.example.bookshop.repository.BookRepository;
-import com.example.bookshop.repository.SpecificationBuilder;
+import com.example.bookshop.repository.specification.SpecificationBuilder;
 import com.example.bookshop.service.BookService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
