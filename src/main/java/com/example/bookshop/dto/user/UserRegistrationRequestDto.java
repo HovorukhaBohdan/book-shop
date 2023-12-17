@@ -4,12 +4,12 @@ import com.example.bookshop.validation.FieldMatch;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import org.hibernate.validator.constraints.UniqueElements;
 
 @Data
 @FieldMatch
 public class UserRegistrationRequestDto {
     @Email(message = "wrong format of email")
+    @NotNull(message = "can't be null")
     private String email;
     @NotNull(message = "can't be null")
     private String password;
