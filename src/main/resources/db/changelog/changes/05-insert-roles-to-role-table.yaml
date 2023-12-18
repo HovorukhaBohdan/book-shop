@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+        id: insert-roles-to-role-table
+        author: Bohdan Hovorukha
+        changes:
+          - insert:
+              tableName: roles
+              columns:
+                - column: {name: name, value: "USER"}
+                - column: {name: user_id, value: "1"}
+          - insert:
+              tableName: roles
+              columns:
+                - column: { name: name, value: "USER"}
+                - column: { name: user_id, value: "2"}
+          - insert:
+              tableName: roles
+              columns:
+                - column: { name: name, value: "USER"}
+                - column: { name: user_id, value: "3"}
+          - insert:
+              tableName: roles
+              columns:
+                - column: { name: name, value: "ADMIN"}
+                - column: { name: user_id, value: "4"}
+          - insert:
+              tableName: roles
+              columns:
+                - column: { name: name, value: "USER"}
+                - column: { name: user_id, value: "5"}
+          - insert:
+              tableName: roles
+              columns:
+                - column: { name: name, value: "USER"}
+                - column: { name: user_id, value: "6"}
