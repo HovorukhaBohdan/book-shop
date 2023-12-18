@@ -2,8 +2,8 @@ package com.example.bookshop.repository.book;
 
 import com.example.bookshop.exception.SpecificationException;
 import com.example.bookshop.model.Book;
-import com.example.bookshop.repository.SpecificationProvider;
-import com.example.bookshop.repository.SpecificationProviderManager;
+import com.example.bookshop.repository.specification.SpecificationProvider;
+import com.example.bookshop.repository.specification.SpecificationProviderManager;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
