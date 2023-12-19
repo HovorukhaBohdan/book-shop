@@ -4,32 +4,32 @@ databaseChangeLog:
         author: Bohdan Hovorukha
         changes:
           - insert:
-              tableName: roles
+              tableName: users_roles
               columns:
-                - column: {name: name, value: "USER"}
+                - column: {name: role_id, value: "1"}
                 - column: {name: user_id, value: "1"}
           - insert:
-              tableName: roles
+              tableName: users_roles
               columns:
-                - column: { name: name, value: "USER"}
+                - column: { name: role_id, value: "1"}
                 - column: { name: user_id, value: "2"}
           - insert:
-              tableName: roles
+              tableName: users_roles
               columns:
-                - column: { name: name, value: "USER"}
+                - column: { name: role_id, value: "1"}
                 - column: { name: user_id, value: "3"}
           - insert:
-              tableName: roles
+              tableName: users_roles
               columns:
-                - column: { name: name, value: "ADMIN"}
+                - column: { name: role_id, value: "2"}
                 - column: { name: user_id, value: "4"}
           - insert:
-              tableName: roles
+              tableName: users_roles
               columns:
-                - column: { name: name, value: "USER"}
+                - column: { name: role_id, value: "1"}
                 - column: { name: user_id, value: "5"}
           - insert:
-              tableName: roles
+              tableName: users_roles
               columns:
-                - column: { name: name, value: "USER"}
+                - column: { name: role_id, value: "1"}
                 - column: { name: user_id, value: "6"}

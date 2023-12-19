@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: create-user-table
+      id: create-book-table
       author: Bohdan Hovorukha
       changes:
         - createTable:

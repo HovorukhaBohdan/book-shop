@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: create-role-table
+      id: create-users-roles-table
       author: Bohdan Hovorukha
       changes:
         - createTable:
-            tableName: roles
+            tableName: users_roles
             columns:
               - column:
                   name: id
@@ -14,11 +14,10 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: name
-                  type: varchar(255)
+                  name: role_id
+                  type: bigint
                   constraints:
                     nullable: false
-                    unique: true
               - column:
                   name: user_id
                   type: bigint
