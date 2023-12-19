@@ -5,6 +5,7 @@ import com.example.bookshop.dto.user.UserLoginResponseDto;
 import com.example.bookshop.dto.user.UserRegistrationRequestDto;
 import com.example.bookshop.dto.user.UserResponseDto;
 import com.example.bookshop.exception.RegistrationException;
+import com.example.bookshop.security.AuthenticationService;
 import com.example.bookshop.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/auth")
 public class AuthenticationController {
     private final UserService userService;
+    private final AuthenticationService authenticationService;
 
     @PostMapping("/login")
-    public UserLoginResponseDto login(@RequestBody UserLoginRequestDto requestDto) {
-        return null;
+    public UserLoginResponseDto login(@RequestBody @Valid UserLoginRequestDto requestDto) {
+        return authenticationService.authenticate(requestDto);
     }
 
     @PostMapping("/registration")
