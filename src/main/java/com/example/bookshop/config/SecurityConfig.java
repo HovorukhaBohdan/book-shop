@@ -19,7 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
     private final UserDetailsService userDetailsService;
 
-    @Value("${publicEndpoints}")
+    @Value("${public.endpoints}")
     private String[] publicEndpoints;
 
     @Bean

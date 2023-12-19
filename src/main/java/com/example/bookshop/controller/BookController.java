@@ -38,7 +38,6 @@ public class BookController {
         return bookService.getAll(pageable);
     }
 
-
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/{id}")
     @Operation(summary = "Get book by id", description = "Get a book by specified id")
