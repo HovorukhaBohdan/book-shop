@@ -1,4 +1,4 @@
-package com.example.bookshop.config;
+package com.example.bookshop.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
