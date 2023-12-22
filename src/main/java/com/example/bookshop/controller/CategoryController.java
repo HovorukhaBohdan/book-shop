@@ -7,6 +7,8 @@ import com.example.bookshop.dto.category.UpdateCategoryRequestDto;
 import com.example.bookshop.service.BookService;
 import com.example.bookshop.service.CategoryService;
 import java.util.List;
+
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -34,14 +36,14 @@ public class CategoryController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
-    public CategoryDto createCategory(@RequestBody CreateCategoryRequestDto requestDto) {
+    public CategoryDto createCategory(@RequestBody @Valid CreateCategoryRequestDto requestDto) {
         return categoryService.save(requestDto);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public CategoryDto updateCategory(@PathVariable Long id,
-                              @RequestBody UpdateCategoryRequestDto requestDto) {
+                              @RequestBody @Valid UpdateCategoryRequestDto requestDto) {
         return categoryService.update(id, requestDto);
     }
 
