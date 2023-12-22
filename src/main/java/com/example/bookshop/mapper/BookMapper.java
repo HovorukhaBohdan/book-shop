@@ -7,14 +7,12 @@ import com.example.bookshop.dto.book.CreateBookRequestDto;
 import com.example.bookshop.dto.book.UpdateBookRequestDto;
 import com.example.bookshop.model.Book;
 import com.example.bookshop.model.Category;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Mapper(config = MapperConfig.class, uses = {CategoryMapper.class})
 public interface BookMapper {

@@ -1,6 +1,10 @@
 package com.example.bookshop.service.impl;
 
-import com.example.bookshop.dto.book.*;
+import com.example.bookshop.dto.book.BookDto;
+import com.example.bookshop.dto.book.BookDtoWithoutCategoryIds;
+import com.example.bookshop.dto.book.BookSearchParametersDto;
+import com.example.bookshop.dto.book.CreateBookRequestDto;
+import com.example.bookshop.dto.book.UpdateBookRequestDto;
 import com.example.bookshop.exception.EntityNotFoundException;
 import com.example.bookshop.mapper.BookMapper;
 import com.example.bookshop.model.Book;
@@ -11,7 +15,6 @@ import com.example.bookshop.repository.specification.SpecificationBuilder;
 import com.example.bookshop.service.BookService;
 import java.util.List;
 import java.util.Set;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
