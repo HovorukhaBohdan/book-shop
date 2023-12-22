@@ -4,7 +4,7 @@ databaseChangeLog:
       author: Bohdan Hovorukha
       changes:
         - createTable:
-            tableName: books-categories
+            tableName: books_categories
             columns:
               - column:
                   name: id
