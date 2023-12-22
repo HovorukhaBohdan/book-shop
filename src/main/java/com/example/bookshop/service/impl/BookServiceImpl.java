@@ -7,10 +7,14 @@ import com.example.bookshop.dto.book.UpdateBookRequestDto;
 import com.example.bookshop.exception.EntityNotFoundException;
 import com.example.bookshop.mapper.BookMapper;
 import com.example.bookshop.model.Book;
+import com.example.bookshop.model.Category;
 import com.example.bookshop.repository.BookRepository;
+import com.example.bookshop.repository.CategoryRepository;
 import com.example.bookshop.repository.specification.SpecificationBuilder;
 import com.example.bookshop.service.BookService;
 import java.util.List;
+import java.util.Set;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -21,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
+    private final CategoryRepository categoryRepository;
     private final SpecificationBuilder<Book> bookSpecificationBuilder;
     private final BookMapper bookMapper;
 
@@ -65,6 +70,17 @@ public class BookServiceImpl implements BookService {
     public List<BookDto> searchBooks(BookSearchParametersDto searchParameters) {
         Specification<Book> specification = bookSpecificationBuilder.build(searchParameters);
         return bookRepository.findAll(specification).stream()
+                .map(bookMapper::toBookDto)
+                .toList();
+    }
+
+    @Override
+    public List<BookDto> getBooksByCategoryId(Long id) {
+        Category categoryById = categoryRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Can't get books with category id: " + id)
+        );
+
+        return bookRepository.getByCategoriesContains(Set.of(categoryById)).stream()
                 .map(bookMapper::toBookDto)
                 .toList();
     }
