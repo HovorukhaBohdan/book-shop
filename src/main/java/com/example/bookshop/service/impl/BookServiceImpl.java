@@ -14,7 +14,6 @@ import com.example.bookshop.repository.CategoryRepository;
 import com.example.bookshop.repository.specification.SpecificationBuilder;
 import com.example.bookshop.service.BookService;
 import java.util.List;
-import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -80,7 +79,7 @@ public class BookServiceImpl implements BookService {
                 () -> new EntityNotFoundException("Can't get books with category id: " + id)
         );
 
-        return bookRepository.getByCategoriesContains(Set.of(categoryById)).stream()
+        return bookRepository.getBooksByCategoriesContaining(categoryById).stream()
                 .map(bookMapper::toBookDtoWithoutCategories)
                 .toList();
     }
