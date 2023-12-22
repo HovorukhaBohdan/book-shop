@@ -1,12 +1,11 @@
 package com.example.bookshop.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
+
 import lombok.Data;
 import lombok.NonNull;
 import org.hibernate.annotations.SQLDelete;
@@ -36,6 +35,11 @@ public class Book {
     @NonNull
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
+    @ManyToMany
+    @JoinTable(name = "books_categories",
+                joinColumns = @JoinColumn(name = "book_id"),
+                inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<Category> categories = new HashSet<>();
 
     public Book() {
 
