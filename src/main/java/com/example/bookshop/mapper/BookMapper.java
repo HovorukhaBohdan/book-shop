@@ -18,16 +18,14 @@ import java.util.stream.Collectors;
 
 @Mapper(config = MapperConfig.class, uses = {CategoryMapper.class})
 public interface BookMapper {
-    @Mapping(target = "categoryIds")
+    @Mapping(target = "categoryIds", ignore = true)
     BookDto toBookDto(Book book);
 
-    @Mapping(source = "categoryIds", target = "categories")
     Book toBookEntity(CreateBookRequestDto bookRequestDto);
 
-    @Mapping(source = "categoryIds", target = "categories")
     Book toBookEntity(UpdateBookRequestDto bookRequestDto);
 
-    BookDtoWithoutCategoryIds toDtoWithoutCategories(Book book);
+    BookDtoWithoutCategoryIds toBookDtoWithoutCategories(Book book);
 
     @AfterMapping
     default void setCategoryIds(@MappingTarget BookDto bookDto, Book book) {

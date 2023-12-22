@@ -1,6 +1,7 @@
 package com.example.bookshop.controller;
 
 import com.example.bookshop.dto.book.BookDto;
+import com.example.bookshop.dto.book.BookDtoWithoutCategoryIds;
 import com.example.bookshop.dto.category.CategoryDto;
 import com.example.bookshop.dto.category.CreateCategoryRequestDto;
 import com.example.bookshop.dto.category.UpdateCategoryRequestDto;
@@ -69,7 +70,7 @@ public class CategoryController {
     @GetMapping("/{id}/books")
     @Operation(summary = "Search books with specified category",
             description = "Search books by category id")
-    public List<BookDto> getBooksByCategoryId(@PathVariable Long id) {
+    public List<BookDtoWithoutCategoryIds> getBooksByCategoryId(@PathVariable Long id) {
         return bookService.getBooksByCategoryId(id);
     }
 }
