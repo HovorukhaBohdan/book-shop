@@ -33,15 +33,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookDto save(CreateBookRequestDto bookRequestDto) {
         Book book = bookMapper.toBookEntity(bookRequestDto);
-
-        Set<Category> categories = bookRequestDto.getCategoryIds().stream()
-                .map(id -> categoryRepository.findById(id).orElseThrow(
-                        () -> new EntityNotFoundException("Can't get category with id: " + id)
-                ))
-                .collect(Collectors.toSet());
-
-        book.setCategories(categories);
-
+        setCategoriesToCreatedBook(book, bookRequestDto);
         return bookMapper.toBookDto(bookRepository.save(book));
     }
 
@@ -68,14 +60,7 @@ public class BookServiceImpl implements BookService {
 
         Book bookFromRequest = bookMapper.toBookEntity(bookRequestDto);
         bookFromRequest.setId(id);
-
-        Set<Category> categories = bookRequestDto.getCategoryIds().stream()
-                .map(categoryId -> categoryRepository.findById(categoryId).orElseThrow(
-                    () -> new EntityNotFoundException("Can't get category with id: " + categoryId)
-                ))
-                .collect(Collectors.toSet());
-
-        bookFromRequest.setCategories(categories);
+        setCategoriesToUpdatedBook(bookFromRequest, bookRequestDto);
 
         return bookMapper.toBookDto(bookRepository.save(bookFromRequest));
     }
@@ -102,5 +87,25 @@ public class BookServiceImpl implements BookService {
         return bookRepository.getBooksByCategoriesContaining(categoryById).stream()
                 .map(bookMapper::toBookDtoWithoutCategories)
                 .toList();
+    }
+
+    private void setCategoriesToCreatedBook(Book book, CreateBookRequestDto bookRequestDto) {
+        Set<Category> categories = bookRequestDto.getCategoryIds().stream()
+                .map(c -> categoryRepository.findById(c).orElseThrow(
+                        () -> new EntityNotFoundException("Can't get category with id: " + c)
+                ))
+                .collect(Collectors.toSet());
+
+        book.setCategories(categories);
+    }
+
+    private void setCategoriesToUpdatedBook(Book book, UpdateBookRequestDto bookRequestDto) {
+        Set<Category> categories = bookRequestDto.getCategoryIds().stream()
+                .map(c -> categoryRepository.findById(c).orElseThrow(
+                        () -> new EntityNotFoundException("Can't get category with id: " + c)
+                ))
+                .collect(Collectors.toSet());
+
+        book.setCategories(categories);
     }
 }
