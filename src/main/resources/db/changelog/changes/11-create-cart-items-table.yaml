@@ -11,8 +11,8 @@ databaseChangeLog:
                   type: bigint
                   autoIncrement: true
                   constraints:
-                    primaryKey: true
                     nullable: false
+                    primaryKey: true
               - column:
                   name: shopping_cart_id
                   type: bigint

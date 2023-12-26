@@ -14,6 +14,8 @@ public interface CartItemMapper {
     @Mapping(target = "book", source = "bookId", qualifiedByName = "bookFromId")
     CartItem toEntity(CartItemRequestDto requestDto);
 
+    @Mapping(target = "bookId", source = "book.id")
+    @Mapping(target = "bookTitle", source = "book.title")
     CartItemResponseDto toDto(CartItem cartItem);
 
     @Named("bookFromId")

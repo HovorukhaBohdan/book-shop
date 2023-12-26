@@ -53,14 +53,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         );
 
         cartItem.setBook(bookById);
+
         ShoppingCart shoppingCart = shoppingCartRepository.findById(id).get();
-
         cartItem.setShoppingCart(shoppingCart);
+
         CartItem savedItem = cartItemRepository.save(cartItem);
+        shoppingCart.getCartItems().add(savedItem);
 
-        Set<CartItem> cartItems = shoppingCart.getCartItems();
-        shoppingCart.setCartItems(cartItems);
-
-        return shoppingCartMapper.toDto(shoppingCartRepository.save(shoppingCart));
+        return shoppingCartMapper.toDto(shoppingCart);
     }
 }
