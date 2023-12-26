@@ -1,9 +1,8 @@
-package com.example.bookshop.dto.shopping_cart;
+package com.example.bookshop.dto.cart;
 
-import com.example.bookshop.dto.cart_item.CartItemResponseDto;
-import lombok.Data;
-
+import com.example.bookshop.dto.item.CartItemResponseDto;
 import java.util.List;
+import lombok.Data;
 
 @Data
 public class ShoppingCartResponseDto {
