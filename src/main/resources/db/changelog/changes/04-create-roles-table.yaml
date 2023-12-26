@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: create-role-table
+      id: create-roles-table
       author: Bohdan Hovorukha
       changes:
         - createTable:
