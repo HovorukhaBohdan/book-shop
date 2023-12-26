@@ -13,8 +13,7 @@ public class ShoppingCart {
     private Long id;
     @MapsId
     @OneToOne
-    @JoinColumn(name = "user_id")
-    @Column(nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
     @OneToMany
     @JoinTable(name = "shopping_cart_items",

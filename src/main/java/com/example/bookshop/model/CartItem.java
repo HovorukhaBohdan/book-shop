@@ -11,12 +11,10 @@ public class CartItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    @JoinColumn(name = "shopping_cart_id")
-    @Column(nullable = false)
+    @JoinColumn(name = "shopping_cart_id", nullable = false)
     private ShoppingCart shoppingCart;
-    @OneToOne
-    @JoinColumn(name = "book_id")
-    @Column(nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "book_id", nullable = false)
     private Book book;
     private int quantity;
 }

@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-cart-items-table
+      author: Bohdan Hovorukha
+      changes:
+        - createTable:
+            tableName: cart_items
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: shopping_cart_id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    foreignKeyName: fk_cart_items_shopping_cart_id
+                    references: shopping_carts(id)
+              - column:
+                  name: book_id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    foreignKeyName: fk_cart_items_book_id
+                    references: books(id)
+              - column:
+                  name: quantity
+                  type: int
+                  constraints:
+                    nullable: false
