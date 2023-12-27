@@ -37,10 +37,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public List<ShoppingCartResponseDto> getAll(String email) {
-        return shoppingCartRepository.findAllByUserEmail(email).stream()
-                .map(shoppingCartMapper::toDto)
-                .toList();
+    public ShoppingCartResponseDto getShoppingCart(String email) {
+        return shoppingCartMapper.toDto(shoppingCartRepository.findByUserEmail(email));
     }
 
     @Override
