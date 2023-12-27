@@ -2,14 +2,9 @@ package com.example.bookshop.mapper;
 
 import com.example.bookshop.config.MapperConfig;
 import com.example.bookshop.dto.cart.ShoppingCartResponseDto;
-import com.example.bookshop.dto.item.CartItemResponseDto;
-import com.example.bookshop.model.CartItem;
 import com.example.bookshop.model.ShoppingCart;
-import jdk.jfr.Name;
-import org.mapstruct.*;
-
-import java.util.Set;
-import java.util.stream.Collectors;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(config = MapperConfig.class, uses = CartItemMapper.class)
 public interface ShoppingCartMapper {
