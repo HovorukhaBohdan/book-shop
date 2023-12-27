@@ -4,5 +4,5 @@ import com.example.bookshop.dto.item.CartItemResponseDto;
 import com.example.bookshop.model.CartItem;
 
 public interface CartItemService {
-    CartItemResponseDto saveItem(CartItem item);
+    CartItemResponseDto updateItem(Long id, int quantity);
 }
