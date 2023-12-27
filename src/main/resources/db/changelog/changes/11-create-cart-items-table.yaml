@@ -11,8 +11,8 @@ databaseChangeLog:
                   type: bigint
                   autoIncrement: true
                   constraints:
-                    nullable: false
                     primaryKey: true
+                    nullable: false
               - column:
                   name: shopping_cart_id
                   type: bigint
@@ -36,3 +36,5 @@ databaseChangeLog:
                   name: is_deleted
                   type: boolean
                   defaultValueBoolean: false
+                  constraints:
+                    nullable: false
