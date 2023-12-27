@@ -9,6 +9,7 @@ import com.example.bookshop.service.ShoppingCartService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +36,17 @@ public class ShoppingCartController {
     }
 
     @PutMapping("/cart-items/{id}")
-    public CartItemResponseDto updateItem(@PathVariable Long id, @RequestBody int quantity) {
+    public CartItemResponseDto updateItem(
+            Authentication authentication,
+            @PathVariable Long id,
+            @RequestBody int quantity
+    ) {
         return cartItemService.updateItem(id, quantity);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/cart-items/{id}")
+    public void deleteItem(@PathVariable Long id) {
+        cartItemService.deleteItem(id);
     }
 }

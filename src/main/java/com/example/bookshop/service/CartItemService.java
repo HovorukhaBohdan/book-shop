@@ -5,4 +5,6 @@ import com.example.bookshop.model.CartItem;
 
 public interface CartItemService {
     CartItemResponseDto updateItem(Long id, int quantity);
+
+    void deleteItem(Long id);
 }
