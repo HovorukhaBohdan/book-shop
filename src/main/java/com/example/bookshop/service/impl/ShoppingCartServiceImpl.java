@@ -82,11 +82,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 .orElseThrow(
                         () -> new EntityNotFoundException("Can't get item with id: " + itemId)
                 );
-
+        Book book = foundItem.getBook();
         shoppingCart.getCartItems().remove(foundItem);
 
         CartItem cartItem = cartItemMapper.toEntity(requestDto);
         cartItem.setId(itemId);
+        cartItem.setBook(book);
+        cartItem.setShoppingCart(shoppingCart);
 
         CartItem savedItem = cartItemRepository.save(cartItem);
         shoppingCart.getCartItems().add(savedItem);
