@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public interface ShoppingCartService {
     void createShoppingCart(User user);
 
-    List<ShoppingCartResponseDto> getAll(String email, Pageable pageable);
+    List<ShoppingCartResponseDto> getAll(String email);
 
     ShoppingCartResponseDto addItem(Long id, CartItemRequestDto requestDto);
 }

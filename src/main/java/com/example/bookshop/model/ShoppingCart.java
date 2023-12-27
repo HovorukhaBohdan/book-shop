@@ -13,8 +13,9 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Entity
-@Data
-@SQLDelete(sql = "UPDATE books SET is_deleted = true WHERE id = ?")
+@Getter
+@Setter
+@SQLDelete(sql = "UPDATE shopping_carts SET is_deleted = true WHERE id = ?")
 @Where(clause = "is_deleted=false")
 @Table(name = "shopping_carts")
 public class ShoppingCart {
@@ -26,13 +27,7 @@ public class ShoppingCart {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ToStringExclude
-    @EqualsExclude
-    @HashCodeExclude
-    @OneToMany
-    @JoinTable(name = "shopping_cart_items",
-               joinColumns = @JoinColumn(name = "shopping_cart_id"),
-               inverseJoinColumns = @JoinColumn(name = "item_id"))
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "shoppingCart")
     private Set<CartItem> cartItems;
 
     @Column(name = "is_deleted", nullable = false)

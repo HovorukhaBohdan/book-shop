@@ -21,9 +21,9 @@ public class ShoppingCartController {
     private final CartItemService cartItemService;
 
     @GetMapping
-    public List<ShoppingCartResponseDto> getAll(Authentication authentication, Pageable pageable) {
+    public List<ShoppingCartResponseDto> getShoppingCart(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        return shoppingCartService.getAll(user.getEmail(), pageable);
+        return shoppingCartService.getAll(user.getEmail());
     }
 
     @PostMapping
@@ -37,7 +37,6 @@ public class ShoppingCartController {
 
     @PutMapping("/cart-items/{id}")
     public CartItemResponseDto updateItem(
-            Authentication authentication,
             @PathVariable Long id,
             @RequestBody int quantity
     ) {
