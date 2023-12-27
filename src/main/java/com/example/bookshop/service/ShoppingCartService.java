@@ -4,7 +4,6 @@ import com.example.bookshop.dto.cart.ShoppingCartResponseDto;
 import com.example.bookshop.dto.item.CartItemRequestDto;
 import com.example.bookshop.dto.item.UpdateRequestCartItemDto;
 import com.example.bookshop.model.User;
-import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service

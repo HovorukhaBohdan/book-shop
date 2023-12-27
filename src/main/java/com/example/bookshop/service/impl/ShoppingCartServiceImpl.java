@@ -15,7 +15,6 @@ import com.example.bookshop.repository.CartItemRepository;
 import com.example.bookshop.repository.ShoppingCartRepository;
 import com.example.bookshop.service.ShoppingCartService;
 import jakarta.transaction.Transactional;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

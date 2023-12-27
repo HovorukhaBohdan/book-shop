@@ -6,8 +6,6 @@ import com.example.bookshop.dto.item.UpdateRequestCartItemDto;
 import com.example.bookshop.model.User;
 import com.example.bookshop.service.CartItemService;
 import com.example.bookshop.service.ShoppingCartService;
-import java.util.List;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
