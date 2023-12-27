@@ -1,6 +1,7 @@
 package com.example.bookshop.service.impl;
 
 import com.example.bookshop.dto.item.CartItemResponseDto;
+import com.example.bookshop.dto.item.UpdateRequestCartItemDto;
 import com.example.bookshop.exception.EntityNotFoundException;
 import com.example.bookshop.mapper.CartItemMapper;
 import com.example.bookshop.model.CartItem;
@@ -15,17 +16,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CartItemServiceImpl implements CartItemService {
     private final CartItemRepository cartItemRepository;
-    private final ShoppingCartRepository shoppingCartRepository;
     private final CartItemMapper cartItemMapper;
-
-    @Override
-    @Transactional
-    public CartItemResponseDto updateItem(Long id, int quantity) {
-        CartItem cartItem = getItemById(id);
-        cartItem.setQuantity(quantity);
-
-        return cartItemMapper.toDto(cartItemRepository.save(cartItem));
-    }
 
     @Override
     public void deleteItem(Long id) {

@@ -2,6 +2,7 @@ package com.example.bookshop.service.impl;
 
 import com.example.bookshop.dto.cart.ShoppingCartResponseDto;
 import com.example.bookshop.dto.item.CartItemRequestDto;
+import com.example.bookshop.dto.item.UpdateRequestCartItemDto;
 import com.example.bookshop.exception.EntityNotFoundException;
 import com.example.bookshop.mapper.CartItemMapper;
 import com.example.bookshop.mapper.ShoppingCartMapper;
@@ -14,7 +15,11 @@ import com.example.bookshop.repository.CartItemRepository;
 import com.example.bookshop.repository.ShoppingCartRepository;
 import com.example.bookshop.service.ShoppingCartService;
 import jakarta.transaction.Transactional;
+
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -53,12 +58,45 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
         cartItem.setBook(bookById);
 
-        ShoppingCart shoppingCart = shoppingCartRepository.findById(id).get();
+        ShoppingCart shoppingCart = findById(id);
         cartItem.setShoppingCart(shoppingCart);
 
         CartItem savedItem = cartItemRepository.save(cartItem);
         shoppingCart.getCartItems().add(savedItem);
 
         return shoppingCartMapper.toDto(shoppingCart);
+    }
+
+    @Override
+    @Transactional
+    public ShoppingCartResponseDto updateItem(
+            Long userId,
+            Long itemId,
+            UpdateRequestCartItemDto requestDto
+    ) {
+        ShoppingCart shoppingCart = findById(userId);
+
+        CartItem foundItem = shoppingCart.getCartItems().stream()
+                .filter(i -> i.getId().equals(itemId))
+                .findFirst()
+                .orElseThrow(
+                        () -> new EntityNotFoundException("Can't get item with id: " + itemId)
+                );
+
+        shoppingCart.getCartItems().remove(foundItem);
+
+        CartItem cartItem = cartItemMapper.toEntity(requestDto);
+        cartItem.setId(itemId);
+
+        CartItem savedItem = cartItemRepository.save(cartItem);
+        shoppingCart.getCartItems().add(savedItem);
+
+        return shoppingCartMapper.toDto(shoppingCartRepository.save(shoppingCart));
+    }
+
+    private ShoppingCart findById(Long id) {
+        return shoppingCartRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Can't get shopping cart with id: " + id)
+        );
     }
 }

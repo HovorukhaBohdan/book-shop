@@ -3,6 +3,7 @@ package com.example.bookshop.mapper;
 import com.example.bookshop.config.MapperConfig;
 import com.example.bookshop.dto.item.CartItemRequestDto;
 import com.example.bookshop.dto.item.CartItemResponseDto;
+import com.example.bookshop.dto.item.UpdateRequestCartItemDto;
 import com.example.bookshop.model.Book;
 import com.example.bookshop.model.CartItem;
 import org.mapstruct.Mapper;
@@ -13,6 +14,8 @@ import org.mapstruct.Named;
 public interface CartItemMapper {
     @Mapping(target = "book", source = "bookId", qualifiedByName = "bookFromId")
     CartItem toEntity(CartItemRequestDto requestDto);
+
+    CartItem toEntity(UpdateRequestCartItemDto requestDto);
 
     @Mapping(target = "bookId", source = "book.id")
     @Mapping(target = "bookTitle", source = "book.title")

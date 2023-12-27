@@ -3,6 +3,7 @@ package com.example.bookshop.controller;
 import com.example.bookshop.dto.cart.ShoppingCartResponseDto;
 import com.example.bookshop.dto.item.CartItemRequestDto;
 import com.example.bookshop.dto.item.CartItemResponseDto;
+import com.example.bookshop.dto.item.UpdateRequestCartItemDto;
 import com.example.bookshop.model.User;
 import com.example.bookshop.service.CartItemService;
 import com.example.bookshop.service.ShoppingCartService;
@@ -36,11 +37,13 @@ public class ShoppingCartController {
     }
 
     @PutMapping("/cart-items/{id}")
-    public CartItemResponseDto updateItem(
+    public ShoppingCartResponseDto updateItem(
+            Authentication authentication,
             @PathVariable Long id,
-            @RequestBody int quantity
-    ) {
-        return cartItemService.updateItem(id, quantity);
+            @RequestBody UpdateRequestCartItemDto requestDto
+            ) {
+        User user = (User) authentication.getPrincipal();
+        return shoppingCartService.updateItem(user.getId(), id, requestDto);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
