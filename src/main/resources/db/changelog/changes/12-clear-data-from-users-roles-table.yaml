@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - changeSet:
+      id: clear-data-from-users-roles-table
+      author: Bohdan Hovorukha
+      changes:
+        - delete:
+            tableName: users_roles

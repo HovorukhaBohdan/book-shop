@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-users-roles-to-users-roles-table
+      author: Bohdan Hovorukha
+      preConditions:
+        - sqlCheck:
+            expectedResult: 1
+            sql: SELECT COUNT(*) FROM users WHERE email='bob@example.com'
+        - sqlCheck:
+            expectedResult: 1
+            sql: SELECT COUNT(*) FROM roles WHERE name='USER'
+        - sqlCheck:
+            expectedResult: 1
+            sql: (SELECT COUNT(*) FROM users WHERE email='bohdan@example.com')
+        - sqlCheck:
+            expectedResult: 1
+            sql: (SELECT COUNT(*) FROM roles WHERE name='ADMIN')
+      changes:
+        - insert:
+            tableName: users_roles
+            columns:
+              - column:
+                  name: role_id
+                  valueComputed: (SELECT id FROM roles WHERE name='USER')
+              - column:
+                  name: user_id
+                  valueComputed: (SELECT id FROM users WHERE email='bob@example.com')
+        - insert:
+            tableName: users_roles
+            columns:
+              - column:
+                  name: role_id
+                  valueComputed: (SELECT id FROM roles WHERE name='ADMIN')
+              - column:
+                  name: user_id
+                  valueComputed: (SELECT id FROM users WHERE email='bohdan@example.com')
