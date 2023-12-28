@@ -34,4 +34,11 @@ public class OrderItem {
 
     @Column(nullable = false)
     private BigDecimal price;
+
+    public OrderItem(Order order, Book book, int quantity, BigDecimal price) {
+        this.order = order;
+        this.book = book;
+        this.quantity = quantity;
+        this.price = price;
+    }
 }
