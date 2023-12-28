@@ -1,0 +1,37 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-orders-items-table
+      author: Bohdan Hovorukha
+      changes:
+        - createTable:
+            tableName: orders_items
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: order_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_orders_items_order_id
+                    references: orders(id)
+                    nullable: false
+              - column:
+                  name: book_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_orders_items_book_id
+                    references: books(id)
+                    nullable: false
+              - column:
+                  name: quantity
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
+                  type: decimal
+                  constraints:
+                    nullable: false

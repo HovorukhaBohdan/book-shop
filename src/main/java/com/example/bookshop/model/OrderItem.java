@@ -20,15 +20,13 @@ public class OrderItem {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @ManyToOne
-    @JoinColumn(name = "order_id")
-    @Column(nullable = false)
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @ManyToOne
-    @JoinColumn(name = "book_id")
-    @Column(nullable = false)
+    @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
     @Column(nullable = false)

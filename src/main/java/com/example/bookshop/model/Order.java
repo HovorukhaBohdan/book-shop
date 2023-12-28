@@ -24,8 +24,7 @@ public class Order {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    @Column(nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @Column(nullable = false)
@@ -35,14 +34,13 @@ public class Order {
     @Column(nullable = false)
     private BigDecimal total;
 
-    @Column(nullable = false)
+    @Column(name = "order_date", nullable = false)
     private LocalDateTime orderDate;
 
-    @Column(nullable = false)
+    @Column(name = "shipping_address", nullable = false)
     private String shippingAddress;
 
     @OneToMany(mappedBy = "order")
-    @JoinColumn(name = "item_id")
     private Set<OrderItem> orderItems;
 
     public enum Status {

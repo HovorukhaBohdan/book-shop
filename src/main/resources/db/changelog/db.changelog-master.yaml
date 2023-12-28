@@ -29,3 +29,7 @@ databaseChangeLog:
       file: db/changelog/changes/14-insert-users-to-users-table.yaml
   - include:
       file: db/changelog/changes/15-insert-users-roles-to-users-roles-table.yaml
+  - include:
+      file: db/changelog/changes/16-create-orders-table.yaml
+  - include:
+      file: db/changelog/changes/17-create-orders-items-table.yaml
