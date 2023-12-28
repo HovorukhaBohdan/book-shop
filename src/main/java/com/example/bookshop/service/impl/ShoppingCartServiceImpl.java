@@ -69,10 +69,11 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             UpdateRequestCartItemDto requestDto
     ) {
         ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(userId).orElseThrow(
-                        () -> new EntityNotFoundException("Can't get shopping cart with id: " + userId)
+                        () -> new EntityNotFoundException("Can't get shopping cart with id: "
+                                + userId)
                 );
 
-        CartItem cartItem = cartItemRepository.findByIdAndShoppingCartId(itemId, shoppingCart.getId())
+        CartItem cartItem = cartItemRepository.findByIdAndShoppingCartId(itemId, userId)
                 .orElseThrow(
                         () -> new EntityNotFoundException("Can't get item with id: " + itemId)
                 );
