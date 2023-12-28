@@ -6,7 +6,6 @@ import com.example.bookshop.dto.item.UpdateRequestCartItemDto;
 import com.example.bookshop.model.User;
 import org.springframework.stereotype.Service;
 
-@Service
 public interface ShoppingCartService {
     void createShoppingCart(User user);
 

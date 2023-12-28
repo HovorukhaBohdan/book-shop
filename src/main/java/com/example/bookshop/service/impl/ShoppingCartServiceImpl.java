@@ -50,7 +50,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
         cartItem.setBook(bookById);
 
-        ShoppingCart shoppingCart = findById(id);
+        ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(id).orElseThrow(
+                () -> new EntityNotFoundException("Can't get shopping cart with id: " + id)
+        );
         cartItem.setShoppingCart(shoppingCart);
 
         CartItem savedItem = cartItemRepository.save(cartItem);
@@ -66,31 +68,18 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             Long itemId,
             UpdateRequestCartItemDto requestDto
     ) {
-        ShoppingCart shoppingCart = findById(userId);
+        ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(userId).orElseThrow(
+                        () -> new EntityNotFoundException("Can't get shopping cart with id: " + userId)
+                );
 
-        CartItem foundItem = shoppingCart.getCartItems().stream()
-                .filter(i -> i.getId().equals(itemId))
-                .findFirst()
+        CartItem cartItem = cartItemRepository.findByIdAndShoppingCartId(itemId, shoppingCart.getId())
                 .orElseThrow(
                         () -> new EntityNotFoundException("Can't get item with id: " + itemId)
                 );
-        Book book = foundItem.getBook();
-        shoppingCart.getCartItems().remove(foundItem);
 
-        CartItem cartItem = cartItemMapper.toEntity(requestDto);
-        cartItem.setId(itemId);
-        cartItem.setBook(book);
-        cartItem.setShoppingCart(shoppingCart);
+        cartItem.setQuantity(requestDto.getQuantity());
+        cartItemRepository.save(cartItem);
 
-        CartItem savedItem = cartItemRepository.save(cartItem);
-        shoppingCart.getCartItems().add(savedItem);
-
-        return shoppingCartMapper.toDto(shoppingCartRepository.save(shoppingCart));
-    }
-
-    private ShoppingCart findById(Long id) {
-        return shoppingCartRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Can't get shopping cart with id: " + id)
-        );
+        return shoppingCartMapper.toDto(cartItem.getShoppingCart());
     }
 }
