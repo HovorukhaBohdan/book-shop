@@ -1,6 +1,7 @@
 package com.example.bookshop.service;
 
 import com.example.bookshop.dto.book.BookDto;
+import com.example.bookshop.dto.book.BookDtoWithoutCategoryIds;
 import com.example.bookshop.dto.book.BookSearchParametersDto;
 import com.example.bookshop.dto.book.CreateBookRequestDto;
 import com.example.bookshop.dto.book.UpdateBookRequestDto;
@@ -19,4 +20,6 @@ public interface BookService {
     void deleteById(Long id);
 
     List<BookDto> searchBooks(BookSearchParametersDto searchParameters);
+
+    List<BookDtoWithoutCategoryIds> getBooksByCategoryId(Long id);
 }
