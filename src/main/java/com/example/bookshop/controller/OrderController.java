@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +38,7 @@ public class OrderController {
         return orderService.getOrdersHistory(user.getId(), pageable);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping
     @Operation(summary = "Place an order", description = "Place an order")
@@ -48,7 +50,6 @@ public class OrderController {
         User user = (User) authentication.getPrincipal();
         return orderService.placeOrder(user, pageable, requestDto);
     }
-
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PatchMapping("/{id}")
