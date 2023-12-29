@@ -8,6 +8,8 @@ import com.example.bookshop.model.OrderItem;
 import com.example.bookshop.model.User;
 import com.example.bookshop.service.OrderItemService;
 import com.example.bookshop.service.OrderService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Order management", description = "Endpoints for managing orders")
 @RestController
 @RequestMapping("/api/orders")
 @RequiredArgsConstructor
@@ -25,6 +28,7 @@ public class OrderController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping
+    @Operation(summary = "Get orders history", description = "Get a list of all orders")
     public List<OrderResponseDto> getOrdersHistory(
             Authentication authentication,
             Pageable pageable
@@ -35,6 +39,7 @@ public class OrderController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping
+    @Operation(summary = "Place an order", description = "Place an order")
     public OrderResponseDto placeOrder(
             Authentication authentication,
             Pageable pageable,
@@ -47,6 +52,7 @@ public class OrderController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PatchMapping("/{id}")
+    @Operation(summary = "Update an order status", description = "Updates status for specific order")
     public OrderResponseDto updateOrderStatus(
             @PathVariable Long id,
             @RequestBody UpdateRequestOrderItemDto requestDto
@@ -56,6 +62,8 @@ public class OrderController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/{orderId}/items")
+    @Operation(summary = "Get all item from a certain order",
+            description = "Get all item from a certain order")
     public List<OrderItemResponseDto> getAllOrderItemsForSpecificOrder(
             Authentication authentication,
             Pageable pageable,
@@ -67,6 +75,8 @@ public class OrderController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/{orderId}/items/{itemId}")
+    @Operation(summary = "Get a specific item from a certain order",
+            description = "Get a specific item from a certain order")
     public OrderItemResponseDto getSpecificItemFromOrder(
             Authentication authentication,
             @PathVariable Long orderId,
