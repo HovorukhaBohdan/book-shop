@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-users-to-users-table
+      author: Bohdan Hovorukha
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: "bob@example.com"
+              - column:
+                  name: password
+                  value: "$2a$10$yCASXP59HTCOdYDPCt3W7.dBNYpo/o99j2ywUg6jGhYLoFaRp.k.G"
+              - column:
+                  name: first_name
+                  value: "Bob"
+              - column:
+                  name: last_name
+                  value: "Smith"
+              - column:
+                  name: shipping_address
+                  value: "Kyiv city"
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: "bohdan@example.com"
+              - column:
+                  name: password
+                  value: "$2a$10$A6V/aciyYy..9Cz4wwerfentGjXOFSYMz2q2bPK7ldJ9sgfKm8i52"
+              - column:
+                  name: first_name
+                  value: "Bohdan"
+              - column:
+                  name: last_name
+                  value: "Hovorukha"
+              - column:
+                  name: shipping_address
+                  value: "Kharkiv city"

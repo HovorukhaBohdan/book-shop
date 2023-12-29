@@ -17,3 +17,15 @@ databaseChangeLog:
       file: db/changelog/changes/08-create-categories-table.yaml
   - include:
       file: db/changelog/changes/09-create-books-categories-table.yaml
+  - include:
+      file: db/changelog/changes/10-create-shopping-carts-table.yaml
+  - include:
+      file: db/changelog/changes/11-create-cart-items-table.yaml
+  - include:
+      file: db/changelog/changes/12-clear-data-from-users-roles-table.yaml
+  - include:
+      file: db/changelog/changes/13-update-foreign-keys-for-users-roles-table-and-delete-column-id.yaml
+  - include:
+      file: db/changelog/changes/14-insert-users-to-users-table.yaml
+  - include:
+      file: db/changelog/changes/15-insert-users-roles-to-users-roles-table.yaml
