@@ -10,6 +10,7 @@ import com.example.bookshop.service.OrderItemService;
 import com.example.bookshop.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -45,7 +46,7 @@ public class OrderController {
     public OrderResponseDto placeOrder(
             Authentication authentication,
             Pageable pageable,
-            @RequestBody OrderItemRequestDto requestDto
+            @RequestBody @Valid OrderItemRequestDto requestDto
             ) {
         User user = (User) authentication.getPrincipal();
         return orderService.placeOrder(user, pageable, requestDto);
@@ -56,7 +57,7 @@ public class OrderController {
     @Operation(summary = "Update an order status", description = "Updates status for specific order")
     public OrderResponseDto updateOrderStatus(
             @PathVariable Long id,
-            @RequestBody UpdateRequestOrderItemDto requestDto
+            @RequestBody @Valid UpdateRequestOrderItemDto requestDto
     ) {
      return orderService.updateOrderStatus(id, requestDto);
     }
