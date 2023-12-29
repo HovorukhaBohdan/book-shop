@@ -10,6 +10,7 @@ import com.example.bookshop.service.OrderItemService;
 import com.example.bookshop.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +23,7 @@ public class OrderController {
     private final OrderService orderService;
     private final OrderItemService orderItemService;
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping
     public List<OrderResponseDto> getOrdersHistory(
             Authentication authentication,
@@ -31,6 +33,7 @@ public class OrderController {
         return orderService.getOrdersHistory(user.getId(), pageable);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping
     public OrderResponseDto placeOrder(
             Authentication authentication,
@@ -41,6 +44,8 @@ public class OrderController {
         return orderService.placeOrder(user, pageable, requestDto);
     }
 
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PatchMapping("/{id}")
     public OrderResponseDto updateOrderStatus(
             @PathVariable Long id,
@@ -49,15 +54,18 @@ public class OrderController {
      return orderService.updateOrderStatus(id, requestDto);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/{orderId}/items")
     public List<OrderItemResponseDto> getAllOrderItemsForSpecificOrder(
             Authentication authentication,
+            Pageable pageable,
             @PathVariable Long orderId
     ) {
         User user = (User) authentication.getPrincipal();
-        return orderItemService.getAllOrderItemsForSpecificOrder(user.getId(), orderId);
+        return orderItemService.getAllOrderItemsForSpecificOrder(user.getId(), orderId, pageable);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/{orderId}/items/{itemId}")
     public OrderItemResponseDto getSpecificItemFromOrder(
             Authentication authentication,

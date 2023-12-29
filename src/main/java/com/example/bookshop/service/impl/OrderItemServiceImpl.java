@@ -8,6 +8,7 @@ import com.example.bookshop.model.OrderItem;
 import com.example.bookshop.repository.OrderRepository;
 import com.example.bookshop.service.OrderItemService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +20,12 @@ public class OrderItemServiceImpl implements OrderItemService {
     private final OrderItemMapper orderItemMapper;
 
     @Override
-    public List<OrderItemResponseDto> getAllOrderItemsForSpecificOrder(Long userId, Long orderId) {
-        Order order = getOrderByUserIdAndOrderId(userId, orderId);
+    public List<OrderItemResponseDto> getAllOrderItemsForSpecificOrder(
+            Long userId, Long orderId, Pageable pageable
+    ) {
+        Order order = orderRepository.findByIdAndUserId(orderId, userId, pageable).orElseThrow(
+                () -> new EntityNotFoundException("Can't get order with id: " + orderId)
+        );
 
         return order.getOrderItems().stream()
                 .map(orderItemMapper::toDto)
@@ -29,7 +34,10 @@ public class OrderItemServiceImpl implements OrderItemService {
 
     @Override
     public OrderItemResponseDto getSpecificItemFromOrder(Long userId, Long orderId, Long itemId) {
-        Order order = getOrderByUserIdAndOrderId(userId, orderId);
+        Order order = orderRepository.findByIdAndUserId(orderId, userId).orElseThrow(
+                () -> new EntityNotFoundException("Can't get order with id: " + orderId)
+        );
+
         OrderItem orderItem = order.getOrderItems().stream()
                 .filter(i -> i.getId().equals(itemId))
                 .findFirst()
@@ -38,11 +46,5 @@ public class OrderItemServiceImpl implements OrderItemService {
                 );
 
         return orderItemMapper.toDto(orderItem);
-    }
-
-    private Order getOrderByUserIdAndOrderId(Long userId, Long orderId) {
-        return orderRepository.findByIdAndUserId(orderId, userId).orElseThrow(
-                () -> new EntityNotFoundException("Can't get order with id: " + orderId)
-        );
     }
 }
