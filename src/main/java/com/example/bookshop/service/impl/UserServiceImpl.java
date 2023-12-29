@@ -44,7 +44,6 @@ public class UserServiceImpl implements UserService {
 
         shoppingCartService.createShoppingCart(user);
 
-
         return userMapper.toUserDto(userRepository.save(user));
     }
 }
