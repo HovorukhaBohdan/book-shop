@@ -2,6 +2,7 @@ package com.example.bookshop.service.impl;
 
 import com.example.bookshop.dto.order.OrderResponseDto;
 import com.example.bookshop.dto.orderitem.OrderItemRequestDto;
+import com.example.bookshop.dto.orderitem.OrderItemResponseDto;
 import com.example.bookshop.dto.orderitem.UpdateRequestOrderItemDto;
 import com.example.bookshop.exception.EntityNotFoundException;
 import com.example.bookshop.mapper.OrderItemMapper;
@@ -33,6 +34,7 @@ public class OrderServiceImpl implements OrderService {
     private final ShoppingCartRepository shoppingCartRepository;
     private final CartItemRepository cartItemRepository;
     private final OrderMapper orderMapper;
+    private final OrderItemMapper orderItemMapper;
 
     @Override
     public List<OrderResponseDto> getOrdersHistory(Long userId, Pageable pageable) {
@@ -73,6 +75,17 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(requestDto.getStatus());
 
         return orderMapper.toDto(orderRepository.save(order));
+    }
+
+    @Override
+    public List<OrderItemResponseDto> getAllOrderItemsForSpecificOrder(Long userId, Long orderId) {
+        Order order = orderRepository.findByIdAndUserId(orderId, userId).orElseThrow(
+                () -> new EntityNotFoundException("Can't get order with id: " + orderId)
+        );
+
+        return order.getOrderItems().stream()
+                .map(orderItemMapper::toDto)
+                .toList();
     }
 
     private Order formOrderWithoutItems(ShoppingCart cart, User user, String address) {

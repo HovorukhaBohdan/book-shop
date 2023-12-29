@@ -4,6 +4,7 @@ import com.example.bookshop.dto.order.OrderResponseDto;
 import com.example.bookshop.dto.orderitem.OrderItemRequestDto;
 import com.example.bookshop.dto.orderitem.OrderItemResponseDto;
 import com.example.bookshop.dto.orderitem.UpdateRequestOrderItemDto;
+import com.example.bookshop.model.OrderItem;
 import com.example.bookshop.model.User;
 import com.example.bookshop.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -44,5 +45,14 @@ public class OrderController {
             @RequestBody UpdateRequestOrderItemDto requestDto
     ) {
      return orderService.updateOrderStatus(id, requestDto);
+    }
+
+    @GetMapping("/{orderId}/items")
+    public List<OrderItemResponseDto> getAllOrderItemsForSpecificOrder(
+            Authentication authentication,
+            @PathVariable Long orderId
+    ) {
+        User user = (User) authentication.getPrincipal();
+        return orderService.getAllOrderItemsForSpecificOrder(user.getId(), orderId);
     }
 }

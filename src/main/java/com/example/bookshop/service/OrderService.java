@@ -4,6 +4,7 @@ import com.example.bookshop.dto.order.OrderResponseDto;
 import com.example.bookshop.dto.orderitem.OrderItemRequestDto;
 import com.example.bookshop.dto.orderitem.OrderItemResponseDto;
 import com.example.bookshop.dto.orderitem.UpdateRequestOrderItemDto;
+import com.example.bookshop.model.OrderItem;
 import com.example.bookshop.model.User;
 import org.springframework.data.domain.Pageable;
 
@@ -16,4 +17,6 @@ public interface OrderService {
                                           OrderItemRequestDto requestDto);
 
     OrderResponseDto updateOrderStatus(Long id, UpdateRequestOrderItemDto requestDto);
+
+    List<OrderItemResponseDto> getAllOrderItemsForSpecificOrder(Long userId, Long orderId);
 }
