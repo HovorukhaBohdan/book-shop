@@ -2,6 +2,7 @@ package com.example.bookshop.service.impl;
 
 import com.example.bookshop.dto.order.OrderResponseDto;
 import com.example.bookshop.dto.orderitem.OrderItemRequestDto;
+import com.example.bookshop.dto.orderitem.UpdateRequestOrderItemDto;
 import com.example.bookshop.exception.EntityNotFoundException;
 import com.example.bookshop.mapper.OrderItemMapper;
 import com.example.bookshop.mapper.OrderMapper;
@@ -62,6 +63,16 @@ public class OrderServiceImpl implements OrderService {
         cartItemRepository.deleteAll(shoppingCart.getCartItems());
 
         return orderMapper.toDto(savedOrder);
+    }
+
+    @Override
+    public OrderResponseDto updateOrderStatus(Long id, UpdateRequestOrderItemDto requestDto) {
+        Order order = orderRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Can't get order with id: " + id)
+        );
+        order.setStatus(requestDto.getStatus());
+
+        return orderMapper.toDto(orderRepository.save(order));
     }
 
     private Order formOrderWithoutItems(ShoppingCart cart, User user, String address) {

@@ -3,6 +3,7 @@ package com.example.bookshop.service;
 import com.example.bookshop.dto.order.OrderResponseDto;
 import com.example.bookshop.dto.orderitem.OrderItemRequestDto;
 import com.example.bookshop.dto.orderitem.OrderItemResponseDto;
+import com.example.bookshop.dto.orderitem.UpdateRequestOrderItemDto;
 import com.example.bookshop.model.User;
 import org.springframework.data.domain.Pageable;
 
@@ -13,4 +14,6 @@ public interface OrderService {
 
     OrderResponseDto placeOrder(User user, Pageable pageable,
                                           OrderItemRequestDto requestDto);
+
+    OrderResponseDto updateOrderStatus(Long id, UpdateRequestOrderItemDto requestDto);
 }

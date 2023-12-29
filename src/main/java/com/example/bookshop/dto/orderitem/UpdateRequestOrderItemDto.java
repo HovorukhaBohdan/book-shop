@@ -1,8 +1,9 @@
 package com.example.bookshop.dto.orderitem;
 
+import com.example.bookshop.model.Order;
 import lombok.Data;
 
 @Data
 public class UpdateRequestOrderItemDto {
-    private String status;
+    private Order.Status status;
 }
