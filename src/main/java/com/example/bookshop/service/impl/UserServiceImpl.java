@@ -42,8 +42,9 @@ public class UserServiceImpl implements UserService {
         Role defaultRole = roleRepository.findByName(Role.RoleName.USER);
         user.setRoles(Set.of(defaultRole));
 
-        shoppingCartService.createShoppingCart(user);
+        User savedUser = userRepository.save(user);
+        shoppingCartService.createShoppingCart(savedUser);
 
-        return userMapper.toUserDto(userRepository.save(user));
+        return userMapper.toUserDto(savedUser);
     }
 }
