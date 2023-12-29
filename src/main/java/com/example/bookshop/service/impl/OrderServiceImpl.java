@@ -2,7 +2,6 @@ package com.example.bookshop.service.impl;
 
 import com.example.bookshop.dto.order.OrderResponseDto;
 import com.example.bookshop.dto.orderitem.OrderItemRequestDto;
-import com.example.bookshop.dto.orderitem.OrderItemResponseDto;
 import com.example.bookshop.dto.orderitem.UpdateRequestOrderItemDto;
 import com.example.bookshop.exception.EntityNotFoundException;
 import com.example.bookshop.mapper.OrderItemMapper;
@@ -12,9 +11,9 @@ import com.example.bookshop.model.OrderItem;
 import com.example.bookshop.model.ShoppingCart;
 import com.example.bookshop.model.User;
 import com.example.bookshop.repository.CartItemRepository;
+import com.example.bookshop.repository.OrderItemRepository;
 import com.example.bookshop.repository.OrderRepository;
 import com.example.bookshop.repository.ShoppingCartRepository;
-import com.example.bookshop.repository.specification.OrderItemRepository;
 import com.example.bookshop.service.OrderService;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -51,13 +50,14 @@ public class OrderServiceImpl implements OrderService {
             OrderItemRequestDto requestDto
     ) {
         ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(user.getId()).orElseThrow(
-                () -> new EntityNotFoundException("Can't get shopping cart with users id: " + user.getId())
+                () -> new EntityNotFoundException("Can't get shopping cart with users id: "
+                        + user.getId())
         );
 
         Order order = formOrderWithoutItems(shoppingCart, user, requestDto.getShippingAddress());
         Order savedOrder = orderRepository.save(order);
 
-        Set<OrderItem> orderItems =  new HashSet<>(orderItemRepository.saveAll(
+        Set<OrderItem> orderItems = new HashSet<>(orderItemRepository.saveAll(
                 formOrderItems(shoppingCart, order)
         ));
         order.setOrderItems(orderItems);

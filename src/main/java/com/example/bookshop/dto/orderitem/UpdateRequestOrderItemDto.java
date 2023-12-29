@@ -1,8 +1,6 @@
 package com.example.bookshop.dto.orderitem;
 
 import com.example.bookshop.model.Order;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
