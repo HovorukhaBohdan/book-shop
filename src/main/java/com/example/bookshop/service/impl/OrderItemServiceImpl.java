@@ -7,11 +7,9 @@ import com.example.bookshop.model.Order;
 import com.example.bookshop.model.OrderItem;
 import com.example.bookshop.repository.OrderRepository;
 import com.example.bookshop.service.OrderItemService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -21,11 +19,9 @@ public class OrderItemServiceImpl implements OrderItemService {
 
     @Override
     public List<OrderItemResponseDto> getAllOrderItemsForSpecificOrder(
-            Long userId, Long orderId, Pageable pageable
+            Long userId, Long orderId
     ) {
-        Order order = orderRepository.findByIdAndUserId(orderId, userId, pageable).orElseThrow(
-                () -> new EntityNotFoundException("Can't get order with id: " + orderId)
-        );
+        Order order = getOrderByUserIdAndOrderId(userId, orderId);
 
         return order.getOrderItems().stream()
                 .map(orderItemMapper::toDto)
@@ -34,9 +30,7 @@ public class OrderItemServiceImpl implements OrderItemService {
 
     @Override
     public OrderItemResponseDto getSpecificItemFromOrder(Long userId, Long orderId, Long itemId) {
-        Order order = orderRepository.findByIdAndUserId(orderId, userId).orElseThrow(
-                () -> new EntityNotFoundException("Can't get order with id: " + orderId)
-        );
+        Order order = getOrderByUserIdAndOrderId(userId, orderId);
 
         OrderItem orderItem = order.getOrderItems().stream()
                 .filter(i -> i.getId().equals(itemId))
@@ -46,5 +40,11 @@ public class OrderItemServiceImpl implements OrderItemService {
                 );
 
         return orderItemMapper.toDto(orderItem);
+    }
+
+    private Order getOrderByUserIdAndOrderId(Long userId, Long orderId) {
+        return orderRepository.findByIdAndUserId(orderId, userId).orElseThrow(
+                () -> new EntityNotFoundException("Can't get order with id: " + orderId)
+        );
     }
 }

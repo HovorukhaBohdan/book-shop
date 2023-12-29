@@ -66,11 +66,10 @@ public class OrderController {
             description = "Get all item from a certain order")
     public List<OrderItemResponseDto> getAllOrderItemsForSpecificOrder(
             Authentication authentication,
-            Pageable pageable,
             @PathVariable Long orderId
     ) {
         User user = (User) authentication.getPrincipal();
-        return orderItemService.getAllOrderItemsForSpecificOrder(user.getId(), orderId, pageable);
+        return orderItemService.getAllOrderItemsForSpecificOrder(user.getId(), orderId);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")

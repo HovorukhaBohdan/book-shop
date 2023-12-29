@@ -22,7 +22,4 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     @EntityGraph(attributePaths = {"orderItems"})
     Optional<Order> findByIdAndUserId(Long orderId, Long userId);
-
-    @EntityGraph(attributePaths = {"orderItems"})
-    Optional<Order> findByIdAndUserId(Long orderId, Long userId, Pageable pageable);
 }

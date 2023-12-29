@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface OrderItemService {
-    List<OrderItemResponseDto> getAllOrderItemsForSpecificOrder(Long userId, Long orderId, Pageable pageable);
+    List<OrderItemResponseDto> getAllOrderItemsForSpecificOrder(Long userId, Long orderId);
 
     OrderItemResponseDto getSpecificItemFromOrder(Long userId, Long orderId, Long itemId);
 }
