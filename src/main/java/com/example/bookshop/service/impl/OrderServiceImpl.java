@@ -47,7 +47,9 @@ public class OrderServiceImpl implements OrderService {
             Pageable pageable,
             OrderItemRequestDto requestDto
     ) {
-        ShoppingCart shoppingCart = shoppingCartRepository.findByUserEmail(user.getEmail());
+        ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(user.getId()).orElseThrow(
+                () -> new EntityNotFoundException("Can't get shopping cart with users id: " + user.getId())
+        );
 
         Order order = formOrderWithoutItems(shoppingCart, user, requestDto.getShippingAddress());
         Order savedOrder = orderRepository.save(order);
@@ -64,7 +66,7 @@ public class OrderServiceImpl implements OrderService {
 
     private Order formOrderWithoutItems(ShoppingCart cart, User user, String address) {
         BigDecimal totalPrice = cart.getCartItems().stream()
-                .map(i -> i.getBook().getPrice())
+                .map(i -> i.getBook().getPrice().multiply(BigDecimal.valueOf(i.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         Order order = new Order();

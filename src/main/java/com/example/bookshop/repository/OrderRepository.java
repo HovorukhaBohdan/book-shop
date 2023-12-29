@@ -10,5 +10,6 @@ import java.util.List;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
+    @Query("SELECT o FROM Order o JOIN FETCH o.orderItems WHERE o.user.id = :userId")
     List<Order> findAllByUserId(Long userId, Pageable pageable);
 }
