@@ -6,6 +6,7 @@ import com.example.bookshop.dto.orderitem.OrderItemResponseDto;
 import com.example.bookshop.dto.orderitem.UpdateRequestOrderItemDto;
 import com.example.bookshop.model.OrderItem;
 import com.example.bookshop.model.User;
+import com.example.bookshop.service.OrderItemService;
 import com.example.bookshop.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
+    private final OrderItemService orderItemService;
 
     @GetMapping
     public List<OrderResponseDto> getOrdersHistory(
@@ -53,6 +55,16 @@ public class OrderController {
             @PathVariable Long orderId
     ) {
         User user = (User) authentication.getPrincipal();
-        return orderService.getAllOrderItemsForSpecificOrder(user.getId(), orderId);
+        return orderItemService.getAllOrderItemsForSpecificOrder(user.getId(), orderId);
+    }
+
+    @GetMapping("/{orderId}/items/{itemId}")
+    public OrderItemResponseDto getSpecificItemFromOrder(
+            Authentication authentication,
+            @PathVariable Long orderId,
+            @PathVariable Long itemId
+    ) {
+        User user = (User) authentication.getPrincipal();
+        return orderItemService.getSpecificItemFromOrder(user.getId(), orderId, itemId);
     }
 }

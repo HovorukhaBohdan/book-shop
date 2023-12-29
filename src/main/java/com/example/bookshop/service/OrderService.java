@@ -17,6 +17,4 @@ public interface OrderService {
                                           OrderItemRequestDto requestDto);
 
     OrderResponseDto updateOrderStatus(Long id, UpdateRequestOrderItemDto requestDto);
-
-    List<OrderItemResponseDto> getAllOrderItemsForSpecificOrder(Long userId, Long orderId);
 }

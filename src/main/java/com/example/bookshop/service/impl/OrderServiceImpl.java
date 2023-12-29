@@ -77,17 +77,6 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.toDto(orderRepository.save(order));
     }
 
-    @Override
-    public List<OrderItemResponseDto> getAllOrderItemsForSpecificOrder(Long userId, Long orderId) {
-        Order order = orderRepository.findByIdAndUserId(orderId, userId).orElseThrow(
-                () -> new EntityNotFoundException("Can't get order with id: " + orderId)
-        );
-
-        return order.getOrderItems().stream()
-                .map(orderItemMapper::toDto)
-                .toList();
-    }
-
     private Order formOrderWithoutItems(ShoppingCart cart, User user, String address) {
         BigDecimal totalPrice = cart.getCartItems().stream()
                 .map(i -> i.getBook().getPrice().multiply(BigDecimal.valueOf(i.getQuantity())))
