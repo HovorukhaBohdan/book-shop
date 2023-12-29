@@ -1,0 +1,27 @@
+databaseChangeLog:
+  - changeSet:
+      id: update-foreign-keys-for-users-roles-table-and-delete-column-id
+      author: Bohdan Hovorukha
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: role_id
+            baseTableName: users_roles
+            constraintName: fk_users_roles_role_id
+            referencedColumnNames: id
+            referencedTableName: roles
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: users_roles
+            constraintName: fk_users_roles_user_id
+            referencedColumnNames: id
+            referencedTableName: users
+        - dropColumn:
+            columnName: id
+            tableName: users_roles
+        - addNotNullConstraint:
+            columnDataType: java.sql.Types.BIGINT
+            columnName: user_id
+            tableName: users_roles
+        - addPrimaryKey:
+            columnNames: role_id, user_id
+            tableName: users_roles
