@@ -4,7 +4,6 @@ import com.example.bookshop.dto.order.OrderResponseDto;
 import com.example.bookshop.dto.orderitem.OrderItemRequestDto;
 import com.example.bookshop.dto.orderitem.UpdateRequestOrderItemDto;
 import com.example.bookshop.exception.EntityNotFoundException;
-import com.example.bookshop.mapper.OrderItemMapper;
 import com.example.bookshop.mapper.OrderMapper;
 import com.example.bookshop.model.Order;
 import com.example.bookshop.model.OrderItem;
@@ -24,6 +23,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +33,6 @@ public class OrderServiceImpl implements OrderService {
     private final ShoppingCartRepository shoppingCartRepository;
     private final CartItemRepository cartItemRepository;
     private final OrderMapper orderMapper;
-    private final OrderItemMapper orderItemMapper;
 
     @Override
     public List<OrderResponseDto> getOrdersHistory(Long userId, Pageable pageable) {
@@ -44,9 +43,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public OrderResponseDto placeOrder(
             User user,
-            Pageable pageable,
             OrderItemRequestDto requestDto
     ) {
         ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(user.getId()).orElseThrow(

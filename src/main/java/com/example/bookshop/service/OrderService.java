@@ -10,8 +10,7 @@ import org.springframework.data.domain.Pageable;
 public interface OrderService {
     List<OrderResponseDto> getOrdersHistory(Long userId, Pageable pageable);
 
-    OrderResponseDto placeOrder(User user, Pageable pageable,
-                                          OrderItemRequestDto requestDto);
+    OrderResponseDto placeOrder(User user, OrderItemRequestDto requestDto);
 
     OrderResponseDto updateOrderStatus(Long id, UpdateRequestOrderItemDto requestDto);
 }
