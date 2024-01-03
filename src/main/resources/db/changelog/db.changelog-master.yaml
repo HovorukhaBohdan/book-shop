@@ -35,3 +35,5 @@ databaseChangeLog:
       file: db/changelog/changes/17-create-orders-items-table.yaml
   - include:
       file: db/changelog/changes/18-insert-shopping-cart-to-shopping-carts-table.yaml
+  - include:
+      file: db/changelog/changes/19-update-fks-for-books-categories-table.yaml
