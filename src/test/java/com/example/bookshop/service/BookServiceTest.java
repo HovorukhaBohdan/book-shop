@@ -1,4 +1,4 @@
-package com.example.bookshop.service.book;
+package com.example.bookshop.service;
 
 import com.example.bookshop.dto.book.*;
 import com.example.bookshop.exception.EntityNotFoundException;
@@ -9,6 +9,10 @@ import com.example.bookshop.repository.BookRepository;
 import com.example.bookshop.repository.CategoryRepository;
 import com.example.bookshop.repository.book.BookSpecificationBuilder;
 import com.example.bookshop.service.impl.BookServiceImpl;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -22,11 +26,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.testcontainers.shaded.org.apache.commons.lang3.builder.EqualsBuilder;
-
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 @ExtendWith(MockitoExtension.class)
 class BookServiceTest {
@@ -46,6 +45,7 @@ class BookServiceTest {
     private static BookDto bookDto;
     private static BookDto updatedBookDto;
     private static BookDtoWithoutCategoryIds bookDtoWithoutCategoryIds;
+    private static CreateBookRequestDto createBookRequestDto;
     private static UpdateBookRequestDto updateBookRequestDto;
     private static BookSearchParametersDto searchParametersDto;
 
@@ -105,6 +105,15 @@ class BookServiceTest {
                 .setCoverImage("Cover image was added")
                 .setCategoryIds(Set.of(1L));
 
+        createBookRequestDto = new CreateBookRequestDto()
+                .setTitle("It")
+                .setAuthor("Stephen King")
+                .setIsbn("123-456-789")
+                .setPrice(BigDecimal.valueOf(12.55))
+                .setDescription("Interesting description")
+                .setCoverImage("No cover image")
+                .setCategoryIds(Set.of(1L));
+
         updateBookRequestDto = new UpdateBookRequestDto()
                 .setTitle("It")
                 .setAuthor("Stephen King")
@@ -124,21 +133,12 @@ class BookServiceTest {
     @Test
     @DisplayName("Save book to DB and get DTO for it")
     void saveBook_AllFields_GetBookDtoWithAllFields() {
-        CreateBookRequestDto bookRequestDto = new CreateBookRequestDto()
-                .setTitle("It")
-                .setAuthor("Stephen King")
-                .setIsbn("123-456-789")
-                .setPrice(BigDecimal.valueOf(12.55))
-                .setDescription("Interesting description")
-                .setCoverImage("No cover image")
-                .setCategoryIds(Set.of(1L));
-
-        Mockito.when(bookMapper.toBookEntity(bookRequestDto)).thenReturn(book);
+        Mockito.when(bookMapper.toBookEntity(createBookRequestDto)).thenReturn(book);
         Mockito.when(categoryRepository.findById(category.getId())).thenReturn(Optional.of(category));
         Mockito.when(bookRepository.save(book)).thenReturn(book);
 
         BookDto expected = bookDto;
-        BookDto actual = bookService.save(bookRequestDto);
+        BookDto actual = bookService.save(createBookRequestDto);
 
         EqualsBuilder.reflectionEquals(expected, actual, "id");
     }
