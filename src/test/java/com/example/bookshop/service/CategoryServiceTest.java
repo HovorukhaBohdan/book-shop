@@ -8,6 +8,8 @@ import com.example.bookshop.mapper.CategoryMapper;
 import com.example.bookshop.model.Category;
 import com.example.bookshop.repository.CategoryRepository;
 import com.example.bookshop.service.impl.CategoryServiceImpl;
+import java.util.List;
+import java.util.Optional;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -21,23 +23,20 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.testcontainers.shaded.org.apache.commons.lang3.builder.EqualsBuilder;
 
-import java.util.List;
-import java.util.Optional;
-
 @ExtendWith(MockitoExtension.class)
 class CategoryServiceTest {
-    @Mock
-    private CategoryRepository categoryRepository;
-    @Mock
-    private CategoryMapper categoryMapper;
-    @InjectMocks
-    private CategoryServiceImpl categoryService;
     private static Category category;
     private static Category updatedCategory;
     private static CategoryDto categoryDto;
     private static CategoryDto updatedCategoryDto;
     private static CreateCategoryRequestDto createCategoryRequestDto;
     private static UpdateCategoryRequestDto updateCategoryRequestDto;
+    @Mock
+    private CategoryRepository categoryRepository;
+    @Mock
+    private CategoryMapper categoryMapper;
+    @InjectMocks
+    private CategoryServiceImpl categoryService;
 
     @BeforeAll
     static void beforeAll() {
@@ -51,7 +50,7 @@ class CategoryServiceTest {
                 .setName("Mystic")
                 .setDescription("Mystic category");
 
-        categoryDto =  new CategoryDto()
+        categoryDto = new CategoryDto()
                 .setId(1L)
                 .setName("Horror")
                 .setDescription("Horror category");
@@ -75,7 +74,8 @@ class CategoryServiceTest {
     @DisplayName("Find all categories with one saved category")
     void findAll_OneSavedCategory_ReturnListWithOneCategory() {
         PageRequest pageRequest = PageRequest.of(0, 10);
-        Mockito.when(categoryRepository.findAll(pageRequest)).thenReturn(new PageImpl<>(List.of(category)));
+        Mockito.when(categoryRepository.findAll(pageRequest))
+                .thenReturn(new PageImpl<>(List.of(category)));
 
         List<Category> expected = List.of(category);
         List<CategoryDto> actual = categoryService.findAll(pageRequest);
@@ -114,7 +114,8 @@ class CategoryServiceTest {
     @Test
     @DisplayName("Save category with valid request")
     void save_ValidCategory_ReturnCategoryDto() {
-        Mockito.when(categoryMapper.toCategoryEntity(createCategoryRequestDto)).thenReturn(category);
+        Mockito.when(categoryMapper.toCategoryEntity(createCategoryRequestDto))
+                .thenReturn(category);
         Mockito.when(categoryRepository.save(category)).thenReturn(category);
 
         CategoryDto expected = categoryDto;
@@ -129,7 +130,8 @@ class CategoryServiceTest {
         Long id = 1L;
 
         Mockito.when(categoryRepository.findById(id)).thenReturn(Optional.of(category));
-        Mockito.when(categoryMapper.toCategoryEntity(updateCategoryRequestDto)).thenReturn(updatedCategory);
+        Mockito.when(categoryMapper.toCategoryEntity(updateCategoryRequestDto))
+                .thenReturn(updatedCategory);
 
         CategoryDto expected = updatedCategoryDto;
         CategoryDto actual = categoryService.update(id, updateCategoryRequestDto);

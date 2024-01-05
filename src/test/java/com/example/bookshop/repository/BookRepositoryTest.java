@@ -2,6 +2,8 @@ package com.example.bookshop.repository;
 
 import com.example.bookshop.model.Book;
 import com.example.bookshop.model.Category;
+import java.math.BigDecimal;
+import java.util.List;
 import org.junit.Assert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,9 +12,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.testcontainers.shaded.org.apache.commons.lang3.builder.EqualsBuilder;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

@@ -11,8 +11,13 @@ import com.example.bookshop.dto.book.BookDtoWithoutCategoryIds;
 import com.example.bookshop.dto.category.CategoryDto;
 import com.example.bookshop.dto.category.CreateCategoryRequestDto;
 import com.example.bookshop.dto.category.UpdateCategoryRequestDto;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
+import javax.sql.DataSource;
 import lombok.SneakyThrows;
 import org.junit.Assert;
 import org.junit.jupiter.api.AfterAll;
@@ -31,18 +36,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.shaded.org.apache.commons.lang3.builder.EqualsBuilder;
 
-import javax.sql.DataSource;
-import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CategoryControllerTest {
     protected static MockMvc mockMvc;
-    @Autowired
-    private ObjectMapper objectMapper;
     private static CategoryDto horror;
     private static CategoryDto detective;
     private static CategoryDto mystic;
@@ -53,6 +49,8 @@ class CategoryControllerTest {
     private static CreateCategoryRequestDto testCategory;
     private static CreateCategoryRequestDto emptyRequestDto;
     private static UpdateCategoryRequestDto validUpdateRequest;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @BeforeAll
     static void beforeAll(
@@ -134,7 +132,7 @@ class CategoryControllerTest {
     @AfterAll
     static void afterAll(
             @Autowired DataSource dataSource
-        ) {
+    ) {
         teardown(dataSource);
     }
 
@@ -168,7 +166,10 @@ class CategoryControllerTest {
                 .andReturn();
 
         List<CategoryDto> expected = List.of(horror, detective, mystic, drama);
-        CategoryDto[] actual = objectMapper.readValue(mvcResult.getResponse().getContentAsByteArray(), CategoryDto[].class);
+        CategoryDto[] actual = objectMapper.readValue(
+                mvcResult.getResponse().getContentAsByteArray(),
+                CategoryDto[].class
+        );
 
         Assert.assertEquals(4, actual.length);
         Assert.assertEquals(expected, Arrays.stream(actual).toList());
@@ -187,7 +188,10 @@ class CategoryControllerTest {
                 .andReturn();
 
         CategoryDto expected = horror;
-        CategoryDto actual = objectMapper.readValue(mvcResult.getResponse().getContentAsByteArray(), CategoryDto.class);
+        CategoryDto actual = objectMapper.readValue(
+                mvcResult.getResponse().getContentAsByteArray(),
+                CategoryDto.class
+        );
 
         EqualsBuilder.reflectionEquals(expected, actual, "id");
     }
@@ -217,7 +221,10 @@ class CategoryControllerTest {
                 .andReturn();
 
         CategoryDto expected = testCategoryDto;
-        CategoryDto actual = objectMapper.readValue(mvcResult.getResponse().getContentAsByteArray(), CategoryDto.class);
+        CategoryDto actual = objectMapper.readValue(
+                mvcResult.getResponse().getContentAsByteArray(),
+                CategoryDto.class
+        );
 
         EqualsBuilder.reflectionEquals(expected, actual, "id");
     }
@@ -249,7 +256,10 @@ class CategoryControllerTest {
                 .andReturn();
 
         CategoryDto expected = updatedDrama;
-        CategoryDto actual = objectMapper.readValue(mvcResult.getResponse().getContentAsByteArray(), CategoryDto.class);
+        CategoryDto actual = objectMapper.readValue(
+                mvcResult.getResponse().getContentAsByteArray(),
+                CategoryDto.class
+        );
 
         EqualsBuilder.reflectionEquals(expected, actual, "id");
     }

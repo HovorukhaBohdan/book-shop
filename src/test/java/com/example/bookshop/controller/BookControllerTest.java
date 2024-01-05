@@ -12,6 +12,14 @@ import com.example.bookshop.dto.book.BookSearchParametersDto;
 import com.example.bookshop.dto.book.CreateBookRequestDto;
 import com.example.bookshop.dto.book.UpdateBookRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import javax.sql.DataSource;
 import lombok.SneakyThrows;
 import org.junit.Assert;
 import org.junit.jupiter.api.AfterAll;
@@ -30,20 +38,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.shaded.org.apache.commons.lang3.builder.EqualsBuilder;
 
-import javax.sql.DataSource;
-import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class BookControllerTest {
     protected static MockMvc mockMvc;
-    @Autowired
-    private ObjectMapper objectMapper;
     private static BookDto it;
     private static BookDto firestarter;
     private static BookDto cujo;
@@ -55,6 +52,8 @@ class BookControllerTest {
     private static UpdateBookRequestDto emptyUpdateRequestDto;
     private static BookSearchParametersDto validParams;
     private static BookSearchParametersDto invalidParams;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @BeforeAll
     static void beforeAll(
@@ -142,7 +141,6 @@ class BookControllerTest {
                 .setCoverImage("Cover image")
                 .setCategoryIds(Set.of(3L));
 
-
         validUpdateRequestDto = new UpdateBookRequestDto()
                 .setTitle("It")
                 .setAuthor("Stephen King")
@@ -204,7 +202,10 @@ class BookControllerTest {
                 .andReturn();
 
         List<BookDto> expected = List.of(it, firestarter, cujo);
-        BookDto[] actual = objectMapper.readValue(mvcResult.getResponse().getContentAsByteArray(), BookDto[].class);
+        BookDto[] actual = objectMapper.readValue(
+                mvcResult.getResponse().getContentAsByteArray(),
+                BookDto[].class
+        );
 
         Assert.assertEquals(3, actual.length);
         Assert.assertEquals(expected, Arrays.stream(actual).collect(Collectors.toList()));
@@ -222,7 +223,10 @@ class BookControllerTest {
                 .andReturn();
 
         BookDto expected = it;
-        BookDto actual = objectMapper.readValue(mvcResult.getResponse().getContentAsByteArray(), BookDto.class);
+        BookDto actual = objectMapper.readValue(
+                mvcResult.getResponse().getContentAsByteArray(),
+                BookDto.class
+        );
 
         EqualsBuilder.reflectionEquals(expected, actual, "id");
     }
@@ -252,7 +256,10 @@ class BookControllerTest {
                 .andReturn();
 
         BookDto expected = returnedFromPost;
-        BookDto actual = objectMapper.readValue(mvcResult.getResponse().getContentAsByteArray(), BookDto.class);
+        BookDto actual = objectMapper.readValue(
+                mvcResult.getResponse().getContentAsByteArray(),
+                BookDto.class
+        );
 
         EqualsBuilder.reflectionEquals(expected, actual, "id");
     }
@@ -268,6 +275,7 @@ class BookControllerTest {
                 )
                 .andExpect(status().isBadRequest());
     }
+
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     @Test
     @DisplayName("Update book by valid id with valid request")
@@ -283,7 +291,10 @@ class BookControllerTest {
                 .andReturn();
 
         BookDto expected = returnedFromUpdate;
-        BookDto actual = objectMapper.readValue(mvcResult.getResponse().getContentAsByteArray(), BookDto.class);
+        BookDto actual = objectMapper.readValue(
+                mvcResult.getResponse().getContentAsByteArray(),
+                BookDto.class
+        );
 
         EqualsBuilder.reflectionEquals(expected, actual, "id");
     }
@@ -340,7 +351,10 @@ class BookControllerTest {
                 .andReturn();
 
         List<BookDto> expected = List.of(firestarter);
-        BookDto[] actual = objectMapper.readValue(mvcResult.getResponse().getContentAsByteArray(), BookDto[].class);
+        BookDto[] actual = objectMapper.readValue(
+                mvcResult.getResponse().getContentAsByteArray(),
+                BookDto[].class
+        );
 
         Assert.assertEquals(1, actual.length);
         Assert.assertEquals(expected, Arrays.stream(actual).toList());
@@ -358,7 +372,10 @@ class BookControllerTest {
                         .andReturn();
 
         List<BookDto> expected = List.of();
-        BookDto[] actual = objectMapper.readValue(mvcResult.getResponse().getContentAsByteArray(), BookDto[].class);
+        BookDto[] actual = objectMapper.readValue(
+                mvcResult.getResponse().getContentAsByteArray(),
+                BookDto[].class
+        );
 
         Assert.assertEquals(0, actual.length);
         Assert.assertEquals(expected, Arrays.stream(actual).toList());

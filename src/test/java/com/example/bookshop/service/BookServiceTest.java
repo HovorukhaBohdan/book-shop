@@ -1,6 +1,10 @@
 package com.example.bookshop.service;
 
-import com.example.bookshop.dto.book.*;
+import com.example.bookshop.dto.book.BookDto;
+import com.example.bookshop.dto.book.BookDtoWithoutCategoryIds;
+import com.example.bookshop.dto.book.BookSearchParametersDto;
+import com.example.bookshop.dto.book.CreateBookRequestDto;
+import com.example.bookshop.dto.book.UpdateBookRequestDto;
 import com.example.bookshop.exception.EntityNotFoundException;
 import com.example.bookshop.mapper.BookMapper;
 import com.example.bookshop.model.Book;
@@ -29,6 +33,15 @@ import org.testcontainers.shaded.org.apache.commons.lang3.builder.EqualsBuilder;
 
 @ExtendWith(MockitoExtension.class)
 class BookServiceTest {
+    private static Book book;
+    private static Book updatedBook;
+    private static Category category;
+    private static BookDto bookDto;
+    private static BookDto updatedBookDto;
+    private static BookDtoWithoutCategoryIds bookDtoWithoutCategoryIds;
+    private static CreateBookRequestDto createBookRequestDto;
+    private static UpdateBookRequestDto updateBookRequestDto;
+    private static BookSearchParametersDto searchParametersDto;
     @Mock
     private BookRepository bookRepository;
     @Mock
@@ -39,15 +52,6 @@ class BookServiceTest {
     private BookSpecificationBuilder bookSpecificationBuilder;
     @InjectMocks
     private BookServiceImpl bookService;
-    private static Book book;
-    private static Book updatedBook;
-    private static Category category;
-    private static BookDto bookDto;
-    private static BookDto updatedBookDto;
-    private static BookDtoWithoutCategoryIds bookDtoWithoutCategoryIds;
-    private static CreateBookRequestDto createBookRequestDto;
-    private static UpdateBookRequestDto updateBookRequestDto;
-    private static BookSearchParametersDto searchParametersDto;
 
     @BeforeAll
     static void beforeAll() {
@@ -84,7 +88,6 @@ class BookServiceTest {
                 .setPrice(BigDecimal.valueOf(12.55))
                 .setDescription("Interesting description")
                 .setCoverImage("No cover image");
-
 
         updatedBook = new Book()
                 .setTitle("It")
@@ -134,7 +137,8 @@ class BookServiceTest {
     @DisplayName("Save book to DB and get DTO for it")
     void saveBook_AllFields_GetBookDtoWithAllFields() {
         Mockito.when(bookMapper.toBookEntity(createBookRequestDto)).thenReturn(book);
-        Mockito.when(categoryRepository.findById(category.getId())).thenReturn(Optional.of(category));
+        Mockito.when(categoryRepository.findById(category.getId()))
+                .thenReturn(Optional.of(category));
         Mockito.when(bookRepository.save(book)).thenReturn(book);
 
         BookDto expected = bookDto;
@@ -262,7 +266,8 @@ class BookServiceTest {
         Long id = 1L;
 
         Mockito.when(categoryRepository.findById(id)).thenReturn(Optional.of(category));
-        Mockito.when(bookRepository.getBooksByCategoriesContaining(category)).thenReturn(List.of(book));
+        Mockito.when(bookRepository.getBooksByCategoriesContaining(category))
+                .thenReturn(List.of(book));
 
         List<BookDtoWithoutCategoryIds> expected = List.of(bookDtoWithoutCategoryIds);
         List<BookDtoWithoutCategoryIds> actual = bookService.getBooksByCategoryId(id);
