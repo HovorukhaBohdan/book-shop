@@ -4,10 +4,13 @@ import com.example.bookshop.dto.user.UserRegistrationRequestDto;
 import com.example.bookshop.dto.user.UserResponseDto;
 import com.example.bookshop.exception.RegistrationException;
 import com.example.bookshop.mapper.UserMapper;
+import com.example.bookshop.model.Role;
 import com.example.bookshop.model.User;
+import com.example.bookshop.repository.RoleRepository;
 import com.example.bookshop.repository.UserRepository;
 import com.example.bookshop.service.ShoppingCartService;
 import com.example.bookshop.service.UserService;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final ShoppingCartService shoppingCartService;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
@@ -35,8 +39,12 @@ public class UserServiceImpl implements UserService {
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
 
-        shoppingCartService.createShoppingCart(user);
+        Role defaultRole = roleRepository.findByName(Role.RoleName.USER);
+        user.setRoles(Set.of(defaultRole));
 
-        return userMapper.toUserDto(userRepository.save(user));
+        User savedUser = userRepository.save(user);
+        shoppingCartService.createShoppingCart(savedUser);
+
+        return userMapper.toUserDto(savedUser);
     }
 }

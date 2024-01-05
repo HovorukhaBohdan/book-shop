@@ -50,11 +50,10 @@ public class OrderController {
     @Operation(summary = "Place an order", description = "Place an order")
     public OrderResponseDto placeOrder(
             Authentication authentication,
-            Pageable pageable,
             @RequestBody @Valid OrderItemRequestDto requestDto
     ) {
         User user = (User) authentication.getPrincipal();
-        return orderService.placeOrder(user, pageable, requestDto);
+        return orderService.placeOrder(user, requestDto);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -73,11 +72,10 @@ public class OrderController {
     @Operation(summary = "Get all item from a certain order",
             description = "Get all item from a certain order")
     public List<OrderItemResponseDto> getAllOrderItemsForSpecificOrder(
-            Authentication authentication,
+            Pageable pageable,
             @PathVariable Long orderId
     ) {
-        User user = (User) authentication.getPrincipal();
-        return orderItemService.getAllOrderItemsForSpecificOrder(user.getId(), orderId);
+        return orderItemService.getAllOrderItemsForSpecificOrder(pageable, orderId);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
