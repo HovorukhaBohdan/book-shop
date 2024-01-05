@@ -36,6 +36,4 @@ databaseChangeLog:
   - include:
       file: db/changelog/changes/18-insert-shopping-cart-to-shopping-carts-table.yaml
   - include:
-      file: db/changelog/changes/19-update-fks-for-books-categories-table.yaml
-  - include:
-      file: db/changelog/changes/20-update-datatype-for-price-in-books-table.yaml
+      file: db/changelog/changes/19-update-datatype-for-price-in-books-table.yaml

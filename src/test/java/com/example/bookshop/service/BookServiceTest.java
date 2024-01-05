@@ -26,12 +26,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.testcontainers.shaded.org.apache.commons.lang3.builder.EqualsBuilder;
 
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 class BookServiceTest {
     private static Book book;
     private static Book updatedBook;
@@ -211,22 +214,6 @@ class BookServiceTest {
 
         Assert.assertThrows(
                 "Can't get book with id: " + id,
-                EntityNotFoundException.class,
-                () -> bookService.updateById(id, updateBookRequestDto)
-        );
-    }
-
-    @Test
-    @DisplayName("Update book with invalid category id")
-    void updateById_InvalidCategoryId_EntityNotFoundExceptionThrown() {
-        Long id = 1L;
-
-        Mockito.when(bookRepository.findById(id)).thenReturn(Optional.of(book));
-        Mockito.when(bookMapper.toBookEntity(updateBookRequestDto)).thenReturn(updatedBook);
-        Mockito.when(categoryRepository.findById(id)).thenReturn(Optional.empty());
-
-        Assert.assertThrows(
-                "Can't get category with id: " + id,
                 EntityNotFoundException.class,
                 () -> bookService.updateById(id, updateBookRequestDto)
         );

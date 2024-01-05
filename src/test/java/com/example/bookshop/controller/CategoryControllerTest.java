@@ -217,7 +217,7 @@ class CategoryControllerTest {
                         .content(objectMapper.writeValueAsString(testCategory))
                         .contentType(MediaType.APPLICATION_JSON)
                 )
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andReturn();
 
         CategoryDto expected = testCategoryDto;
