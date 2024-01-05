@@ -13,7 +13,9 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -43,6 +45,9 @@ public class Book {
     @NonNull
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToMany
     @JoinTable(name = "books_categories",
                 joinColumns = @JoinColumn(name = "book_id"),
