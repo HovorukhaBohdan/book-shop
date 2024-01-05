@@ -13,9 +13,9 @@ import com.example.bookshop.repository.BookRepository;
 import com.example.bookshop.repository.CategoryRepository;
 import com.example.bookshop.repository.specification.SpecificationBuilder;
 import com.example.bookshop.service.BookService;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -33,14 +33,8 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookDto save(CreateBookRequestDto bookRequestDto) {
         Book book = bookMapper.toBookEntity(bookRequestDto);
-
-        Set<Category> categories = bookRequestDto.getCategoryIds().stream()
-                .map(id -> categoryRepository.findById(id).orElseThrow(
-                        () -> new EntityNotFoundException("Can't get category with id: " + id)
-                ))
-                .collect(Collectors.toSet());
-
-        book.setCategories(categories);
+        Set<Long> categoryIds = bookRequestDto.getCategoryIds();
+        setCategoriesToBook(book, categoryIds);
 
         return bookMapper.toBookDto(bookRepository.save(book));
     }
@@ -68,14 +62,8 @@ public class BookServiceImpl implements BookService {
 
         Book bookFromRequest = bookMapper.toBookEntity(bookRequestDto);
         bookFromRequest.setId(id);
-
-        Set<Category> categories = bookRequestDto.getCategoryIds().stream()
-                .map(categoryId -> categoryRepository.findById(categoryId).orElseThrow(
-                    () -> new EntityNotFoundException("Can't get category with id: " + categoryId)
-                ))
-                .collect(Collectors.toSet());
-
-        bookFromRequest.setCategories(categories);
+        Set<Long> categoryIds = bookRequestDto.getCategoryIds();
+        setCategoriesToBook(bookFromRequest, categoryIds);
 
         return bookMapper.toBookDto(bookRepository.save(bookFromRequest));
     }
@@ -102,5 +90,12 @@ public class BookServiceImpl implements BookService {
         return bookRepository.getBooksByCategoriesContaining(categoryById).stream()
                 .map(bookMapper::toBookDtoWithoutCategories)
                 .toList();
+    }
+
+    private void setCategoriesToBook(Book book, Set<Long> categoryIds) {
+        Set<Category> categories = new HashSet<>(
+                categoryRepository.findAllById(categoryIds));
+
+        book.setCategories(categories);
     }
 }

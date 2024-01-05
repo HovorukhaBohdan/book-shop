@@ -5,25 +5,26 @@ import com.example.bookshop.exception.EntityNotFoundException;
 import com.example.bookshop.mapper.OrderItemMapper;
 import com.example.bookshop.model.Order;
 import com.example.bookshop.model.OrderItem;
+import com.example.bookshop.repository.OrderItemRepository;
 import com.example.bookshop.repository.OrderRepository;
 import com.example.bookshop.service.OrderItemService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class OrderItemServiceImpl implements OrderItemService {
     private final OrderRepository orderRepository;
+    private final OrderItemRepository orderItemRepository;
     private final OrderItemMapper orderItemMapper;
 
     @Override
     public List<OrderItemResponseDto> getAllOrderItemsForSpecificOrder(
-            Long userId, Long orderId
+            Pageable pageable, Long orderId
     ) {
-        Order order = getOrderByUserIdAndOrderId(userId, orderId);
-
-        return order.getOrderItems().stream()
+        return orderItemRepository.findAllByOrderId(orderId, pageable).stream()
                 .map(orderItemMapper::toDto)
                 .toList();
     }
