@@ -1,7 +1,10 @@
 package com.example.bookshop.controller;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.example.bookshop.dto.book.BookDto;
@@ -196,9 +199,9 @@ class BookControllerTest {
     void getAllBooks_ValidRequest_Success() throws Exception {
         MvcResult mvcResult = mockMvc.perform(
                 get("/api/books")
-        )
-        .andExpect(status().isOk())
-        .andReturn();
+                )
+                .andExpect(status().isOk())
+                .andReturn();
 
         List<BookDto> expected = List.of(it, firestarter, cujo);
         BookDto[] actual = objectMapper.readValue(mvcResult.getResponse().getContentAsByteArray(), BookDto[].class);
@@ -214,9 +217,9 @@ class BookControllerTest {
         Long id = 1L;
         MvcResult mvcResult = mockMvc.perform(
                 get("/api/books/{id}", id)
-        )
-        .andExpect(status().isOk())
-        .andReturn();
+                )
+                .andExpect(status().isOk())
+                .andReturn();
 
         BookDto expected = it;
         BookDto actual = objectMapper.readValue(mvcResult.getResponse().getContentAsByteArray(), BookDto.class);
@@ -296,7 +299,7 @@ class BookControllerTest {
                         .content(objectMapper.writeValueAsString(validUpdateRequestDto))
                         .contentType(MediaType.APPLICATION_JSON)
                 )
-        .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest());
     }
 
     @WithMockUser(username = "admin", roles = {"ADMIN"})
@@ -321,8 +324,8 @@ class BookControllerTest {
 
         mockMvc.perform(
                 delete("/api/books/{id}", id)
-        )
-        .andExpect(status().isNoContent());
+                )
+                .andExpect(status().isNoContent());
     }
 
     @WithMockUser(username = "user", roles = {"USER"})
@@ -350,9 +353,9 @@ class BookControllerTest {
         MvcResult mvcResult = mockMvc.perform(
                         get("/api/books/search")
                                 .param("title", invalidParams.title())
-                )
-                .andExpect(status().isOk())
-                .andReturn();
+                        )
+                        .andExpect(status().isOk())
+                        .andReturn();
 
         List<BookDto> expected = List.of();
         BookDto[] actual = objectMapper.readValue(mvcResult.getResponse().getContentAsByteArray(), BookDto[].class);
