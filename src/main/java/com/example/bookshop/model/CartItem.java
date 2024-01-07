@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -19,6 +20,7 @@ import org.hibernate.annotations.Where;
 @Data
 @SQLDelete(sql = "UPDATE cart_items SET is_deleted = true WHERE id = ?")
 @Where(clause = "is_deleted=false")
+@Accessors(chain = true)
 @Table(name = "cart_items")
 @NoArgsConstructor
 public class CartItem {
@@ -42,4 +44,3 @@ public class CartItem {
     @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted = false;
 }
-
