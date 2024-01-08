@@ -7,11 +7,20 @@ import com.example.bookshop.dto.item.UpdateRequestCartItemDto;
 import com.example.bookshop.exception.EntityNotFoundException;
 import com.example.bookshop.mapper.CartItemMapper;
 import com.example.bookshop.mapper.ShoppingCartMapper;
-import com.example.bookshop.model.*;
+import com.example.bookshop.model.Book;
+import com.example.bookshop.model.CartItem;
+import com.example.bookshop.model.Category;
+import com.example.bookshop.model.ShoppingCart;
+import com.example.bookshop.model.User;
 import com.example.bookshop.repository.BookRepository;
 import com.example.bookshop.repository.CartItemRepository;
 import com.example.bookshop.repository.ShoppingCartRepository;
 import com.example.bookshop.service.impl.ShoppingCartServiceImpl;
+import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -22,12 +31,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.testcontainers.shaded.org.apache.commons.lang3.builder.EqualsBuilder;
-
-import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 @ExtendWith(MockitoExtension.class)
 class ShoppingCartServiceTest {
@@ -137,7 +140,8 @@ class ShoppingCartServiceTest {
     @Test
     @DisplayName("Get shopping cart")
     void getShoppingCart_ValidEmail_ReturnShoppingCartDto() {
-        Mockito.when(shoppingCartRepository.findByUserEmail(user.getEmail())).thenReturn(shoppingCart);
+        Mockito.when(shoppingCartRepository.findByUserEmail(user.getEmail()))
+                .thenReturn(shoppingCart);
 
         ShoppingCartResponseDto expected = shoppingCartDto;
         ShoppingCartResponseDto actual = shoppingCartService.getShoppingCart(user.getEmail());
@@ -153,11 +157,14 @@ class ShoppingCartServiceTest {
 
         Mockito.when(cartItemMapper.toEntity(validCartItemRequestDto)).thenReturn(cartItem);
         Mockito.when(bookRepository.findById(bookId)).thenReturn(Optional.of(book));
-        Mockito.when(shoppingCartRepository.findByUserId(userId)).thenReturn(Optional.of(shoppingCart));
+        Mockito.when(shoppingCartRepository.findByUserId(userId))
+                .thenReturn(Optional.of(shoppingCart));
         Mockito.when(cartItemRepository.save(cartItem)).thenReturn(cartItem);
 
         ShoppingCartResponseDto expected = shoppingCartDtoWithItem;
-        ShoppingCartResponseDto actual = shoppingCartService.addItem(userId, validCartItemRequestDto);
+        ShoppingCartResponseDto actual = shoppingCartService.addItem(
+                userId, validCartItemRequestDto
+        );
 
         EqualsBuilder.reflectionEquals(expected, actual, "id");
     }
@@ -201,12 +208,15 @@ class ShoppingCartServiceTest {
         Long userId = 3L;
         Long itemId = 1L;
 
-        Mockito.when(shoppingCartRepository.findByUserId(userId)).thenReturn(Optional.of(shoppingCart));
+        Mockito.when(shoppingCartRepository.findByUserId(userId))
+                .thenReturn(Optional.of(shoppingCart));
         Mockito.when(cartItemRepository.findByIdAndShoppingCartId(itemId, userId))
                 .thenReturn(Optional.of(cartItem));
 
         ShoppingCartResponseDto expected = updatedShoppingCart;
-        ShoppingCartResponseDto actual = shoppingCartService.updateItem(userId, itemId, validUpdateRequest);
+        ShoppingCartResponseDto actual = shoppingCartService.updateItem(
+                userId, itemId, validUpdateRequest
+        );
 
         EqualsBuilder.reflectionEquals(expected, actual, "id");
     }
@@ -231,10 +241,10 @@ class ShoppingCartServiceTest {
         Long userId = 3L;
         Long itemId = 1L;
 
-        Mockito.when(shoppingCartRepository.findByUserId(userId)).thenReturn(Optional.of(shoppingCart));
+        Mockito.when(shoppingCartRepository.findByUserId(userId))
+                .thenReturn(Optional.of(shoppingCart));
         Mockito.when(cartItemRepository.findByIdAndShoppingCartId(itemId, userId))
                 .thenReturn(Optional.empty());
-
 
         Assert.assertThrows(
                 "Can't get item with id: " + itemId,
