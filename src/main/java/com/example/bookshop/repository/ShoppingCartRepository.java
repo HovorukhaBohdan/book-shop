@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, Long> {
-    @Query("SELECT sc FROM ShoppingCart sc JOIN FETCH sc.cartItems")
+    @Query("SELECT sc FROM ShoppingCart sc JOIN FETCH sc.cartItems WHERE sc.user.email = :email")
     ShoppingCart findByUserEmail(String email);
 
     @EntityGraph(attributePaths = {"cartItems", "cartItems.book"})
